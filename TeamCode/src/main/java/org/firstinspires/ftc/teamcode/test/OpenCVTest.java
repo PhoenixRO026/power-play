@@ -30,7 +30,7 @@ public class OpenCVTest extends LinearOpMode {
     double cy = 221.506;
 
     // UNITS ARE METERS
-    double tagsize = 0.166;
+    double tagSize = 0.166;
 
     int numFramesWithoutDetection = 0;
 
@@ -46,7 +46,7 @@ public class OpenCVTest extends LinearOpMode {
 
         FtcDashboard.getInstance().startCameraStream(webcam, 0);
 
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagSize, fx, fy, cx, cy);
         webcam.setPipeline(aprilTagDetectionPipeline);
 
         webcam.setMillisecondsPermissionTimeout(2500); // Timeout for obtaining permission is configurable. Set before opening.
