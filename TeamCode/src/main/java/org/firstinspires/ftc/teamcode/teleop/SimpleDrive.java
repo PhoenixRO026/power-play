@@ -30,7 +30,7 @@ public class SimpleDrive extends LinearOpMode {
     int liftPos = 0;
 
     double intakeStart = 0.28;
-    double intakeEnd = 0.15;
+    double intakeEnd = 0.16;
     double intakeMod = intakeEnd - intakeStart;
     double intakePos = 0;
 
@@ -40,8 +40,8 @@ public class SimpleDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //lift = new DcMotorServo(hardwareMap,"lift",26.851239f,28);
-        lift = hardwareMap.get(DcMotorEx.class, "lift");
+        //lift = new DcMotorServo(hardwareMap,"lift",19.203208f,28);
+        lift = hardwareMap.get(DcMotorEx.class, "lift" );
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -63,7 +63,7 @@ public class SimpleDrive extends LinearOpMode {
             if (gamepad1.y) {
                 lift.setPower(1);
             } else if (gamepad1.a && liftPos > 50) {
-                lift.setPower(-0.4);
+                lift.setPower(-1);
             } else {
                 lift.setPower(0);
             }
