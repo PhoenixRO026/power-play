@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -15,18 +16,23 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class SimpleDrive extends LinearOpMode {
     SampleMecanumDrive drive;
     Servo intake;
-    DcMotorServo lift;
+    //DcMotorServo lift;
+    DcMotorEx lift;
 
     boolean sniperMode = false;
     boolean ultraSniperMode = false;
     double driveSpeed = 1;
-    double intakePos = 0.15;
-    double intakeLastTime = 0;
-    double intakeStep = 0.02;
-    double timeStep = 0.1;
+
+    /*double timeStep = 0.1;
     float liftAngle = 0;
     double liftLastTime = 0;
-    float liftStep = 10;
+    float liftStep = 100;*/
+    int liftPos = 0;
+
+    double intakeStart = 0.28;
+    double intakeEnd = 0.15;
+    double intakeMod = intakeEnd - intakeStart;
+    double intakePos = 0;
 
 
 
@@ -34,7 +40,10 @@ public class SimpleDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift = new DcMotorServo(hardwareMap,"lift",26.851239f,28);
+        //lift = new DcMotorServo(hardwareMap,"lift",26.851239f,28);
+        lift = hardwareMap.get(DcMotorEx.class, "lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -42,23 +51,25 @@ public class SimpleDrive extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            movement();
-            intake.setPosition(intakePos);
-            lift.setAngle(liftAngle, 1);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            if (time > intakeLastTime + timeStep) {
-                if (gamepad1.a) {
-                    intakeLastTime = time;
-                    if (intakePos < 1)
-                        intakePos += intakeStep;
-                } else if (gamepad1.y) {
-                    intakeLastTime = time;
-                    if (intakePos > 0)
-                        intakePos -= intakeStep;
-                }
+        while (opModeIsActive()) {
+            //movement();
+            intakePos = intakeStart + gamepad1.right_trigger * intakeMod;
+            intake.setPosition(intakePos);
+
+            liftPos = lift.getCurrentPosition();
+
+            if (gamepad1.y) {
+                lift.setPower(1);
+            } else if (gamepad1.a && liftPos > 50) {
+                lift.setPower(-0.4);
+            } else {
+                lift.setPower(0);
             }
 
+
+            /*lift.setAngle(liftAngle, 1);
             if (time > liftLastTime + timeStep) {
                 if (gamepad1.right_bumper) {
                     liftLastTime = time;
@@ -68,9 +79,10 @@ public class SimpleDrive extends LinearOpMode {
                     if (liftAngle > 0)
                         liftAngle -= liftStep;
                 }
-            }
+            }*/
 
             telemetry.addData("Intake pos", intakePos);
+            telemetry.addData("Lift pos", liftPos);
             telemetry.update();
         }
     }
