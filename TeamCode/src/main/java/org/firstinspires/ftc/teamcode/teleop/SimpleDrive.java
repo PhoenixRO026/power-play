@@ -57,14 +57,14 @@ public class SimpleDrive extends LinearOpMode {
 
         while (opModeIsActive()) {
             movement();
-            intakePos = intakeStart + gamepad1.right_trigger * intakeMod;
+            intakePos = intakeStart + gamepad2.right_trigger * intakeMod;
             intake.setPosition(intakePos);
 
             liftPos = lift.getCurrentPosition();
 
-            if (gamepad1.y) {
+            if (gamepad2.y) {
                 lift.setPower(1);
-            } else if (gamepad1.a) {
+            } else if (gamepad2.a) {
                 lift.setPower(-1);
             } else {
                 lift.setPower(0);
@@ -90,9 +90,9 @@ public class SimpleDrive extends LinearOpMode {
     }
 
     void movement() {
-        sniperMode = gamepad1.right_bumper;
+        sniperMode = gamepad1.right_trigger >= 0.2;
 
-        ultraSniperMode = gamepad1.left_bumper;
+        ultraSniperMode = gamepad1.left_trigger >= 0.2;
 
         if(sniperMode){
             driveSpeed = 0.5;
