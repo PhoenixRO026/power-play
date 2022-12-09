@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -44,6 +45,7 @@ public class SimpleDrive extends LinearOpMode {
         lift = hardwareMap.get(DcMotorEx.class, "lift" );
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -54,7 +56,7 @@ public class SimpleDrive extends LinearOpMode {
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         while (opModeIsActive()) {
-            //movement();
+            movement();
             intakePos = intakeStart + gamepad1.right_trigger * intakeMod;
             intake.setPosition(intakePos);
 
@@ -62,7 +64,7 @@ public class SimpleDrive extends LinearOpMode {
 
             if (gamepad1.y) {
                 lift.setPower(1);
-            } else if (gamepad1.a && liftPos > 50) {
+            } else if (gamepad1.a) {
                 lift.setPower(-1);
             } else {
                 lift.setPower(0);
@@ -88,9 +90,9 @@ public class SimpleDrive extends LinearOpMode {
     }
 
     void movement() {
-        sniperMode = gamepad1.right_trigger > 0.2;
+        sniperMode = gamepad1.right_bumper;
 
-        ultraSniperMode = gamepad1.left_trigger > 0.2;
+        ultraSniperMode = gamepad1.left_bumper;
 
         if(sniperMode){
             driveSpeed = 0.5;
