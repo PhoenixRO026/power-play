@@ -5,7 +5,9 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.teleop.SimpleDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "SimpleAuto")
@@ -13,12 +15,14 @@ public class SimpleAuto extends LinearOpMode {
 
     Pose2d initPos = new Pose2d(35, -58, Math.toRadians(90));
     AutoDrive drive;
+    Servo intake;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new AutoDrive(hardwareMap, initPos);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
+        intake = hardwareMap.get(Servo.class, "intake");
+        intake.setPosition(SimpleDrive.intakeStart);
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPos)
                 .forward(2)
                 .strafeRight(23)

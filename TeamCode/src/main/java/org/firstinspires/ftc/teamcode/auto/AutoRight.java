@@ -20,6 +20,7 @@ public class AutoRight extends LinearOpMode {
     double intakeStart = SimpleDrive.intakeStart;
     double intakeEnd = SimpleDrive.intakeEnd;
     double liftHeight = 0;
+    double intakePos = intakeStart;
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new AutoDrive(hardwareMap, initPose);
@@ -28,12 +29,13 @@ public class AutoRight extends LinearOpMode {
         intake = hardwareMap.get(Servo.class, "intake");
 
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPose)
-                .addDisplacementMarker(() -> {
-
-                    //intake.setPosition(intakeStart);
-                })
+                .waitSeconds(0.5)
                 .forward(40)
                 .splineTo(new Vector2d(7+23.4, -7), Math.toRadians(135))
+                .waitSeconds(0.5)
+                .addTemporalMarker(3, () -> {
+                    intakePos = intakeEnd;
+                })
                 .build();
 
         int result = 13;
@@ -69,6 +71,7 @@ public class AutoRight extends LinearOpMode {
         while (opModeIsActive()) {
             drive.update();
             lift.setHeightMM(liftHeight);
+            intake.setPosition(intakePos);
             if (!drive.isBusy() && !savedPose) {
                 StaticVars.currentPose = drive.getPoseEstimate();
                 savedPose = true;
