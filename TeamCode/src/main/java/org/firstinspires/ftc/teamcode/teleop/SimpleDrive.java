@@ -30,8 +30,8 @@ public class SimpleDrive extends LinearOpMode {
     float liftStep = 100;*/
     int liftPos = 0;
 
-    double intakeStart = 0.28;
-    double intakeEnd = 0.16;
+    public static double intakeStart = 0.31;
+    public static double intakeEnd = 0.17;
     double intakeMod = intakeEnd - intakeStart;
     double intakePos = 0;
 
@@ -62,12 +62,20 @@ public class SimpleDrive extends LinearOpMode {
 
             liftPos = lift.getCurrentPosition();
 
-            if (gamepad2.y) {
+            if (gamepad2.y && liftPos <= 4028) {
                 lift.setPower(1);
-            } else if (gamepad2.a) {
+                lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            } else if (gamepad2.a && liftPos >= 0) {
                 lift.setPower(-1);
+                lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            } else if (gamepad2.x) {
+                lift.setTargetPosition(0);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if (lift.isBusy() && lift.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {
+                lift.setPower(1);
             } else {
                 lift.setPower(0);
+                lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
 
 
@@ -83,6 +91,9 @@ public class SimpleDrive extends LinearOpMode {
                 }
             }*/
 
+            telemetry.addData("Mode", lift.getMode());
+            telemetry.addData("Is busy", lift.isBusy());
+            telemetry.addData("Target pos", lift.getTargetPosition());
             telemetry.addData("Intake pos", intakePos);
             telemetry.addData("Lift pos", liftPos);
             telemetry.update();

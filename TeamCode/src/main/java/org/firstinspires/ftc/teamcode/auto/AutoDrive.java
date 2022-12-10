@@ -89,7 +89,11 @@ public class AutoDrive extends SampleMecanumDrive {
                     aprilTagDetectionPipeline.setDecimation(DECIMATION_HIGH);
                 }
 
-                result = detections.get(0).id;
+                for (AprilTagDetection detection : detections) {
+                    if (detection.id >= 13 && detection.id <= 15) {
+                        result = detection.id;
+                    }
+                }
             }
         }
         return result;

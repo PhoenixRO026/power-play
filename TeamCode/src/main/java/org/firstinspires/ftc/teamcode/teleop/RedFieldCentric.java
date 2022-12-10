@@ -41,7 +41,7 @@ public class RedFieldCentric extends SimpleDrive {
         Vector2d input = new Vector2d(
                 leftY,
                 -leftX
-        ).rotated(- poseEstimate.getHeading()).rotated(Math.toRadians(180));
+        ).rotated(- poseEstimate.getHeading())/*.rotated(Math.toRadians(180))*/;
 
         drive.setWeightedDrivePower(
                 new Pose2d(
