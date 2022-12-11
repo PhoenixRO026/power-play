@@ -33,7 +33,7 @@ public class MeepMeepTesting {
                                     //liftHeight = 800;
                                 })
                                 .splineToSplineHeading(
-                                        new Pose2d(7 + 23.4 - 2 - 9 - 1, -7 + 2 - 1, Math.toRadians(45)),
+                                        new Pose2d(7 + 23.4 - 2 - 9 - 1 - 0.5, -7 + 2 - 1 + 0.5, Math.toRadians(45)),
                                         Math.toRadians(45)
                                 )
                                 .addTemporalMarker(4, () -> {
@@ -71,7 +71,7 @@ public class MeepMeepTesting {
                                     //liftHeight = 800;
                                 })
                                 .splineToSplineHeading(
-                                        new Pose2d(-7 - 23.4 + 2 + 9 + 1, -7 + 2 - 1, Math.toRadians(135)),
+                                        new Pose2d(-7 - 23.4 + 2 + 9 + 1 + 0.5, -7 + 2 - 1 + 0.5, Math.toRadians(135)),
                                         Math.toRadians(135)
                                 )
                                 .addTemporalMarker(4, () -> {

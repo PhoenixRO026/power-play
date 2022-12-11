@@ -29,7 +29,7 @@ public class AutoLeft extends LinearOpMode {
         lift = new Lift(hardwareMap);
         intake = hardwareMap.get(Servo.class, "intake");
 
-        Pose2d highJunctionPose = new Pose2d(-7 - 23.4 + 2 + 9 + 1, -7 + 2 - 1, Math.toRadians(135));
+        Pose2d highJunctionPose = new Pose2d(-7 - 23.4 + 2 + 9 + 1 + 0.5, -7 + 2 - 1 + 0.5, Math.toRadians(135));
 
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPose)
                 .setTangent(Math.toRadians(10))

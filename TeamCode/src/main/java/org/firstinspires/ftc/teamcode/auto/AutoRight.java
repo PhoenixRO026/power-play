@@ -29,7 +29,7 @@ public class AutoRight extends LinearOpMode {
         lift = new Lift(hardwareMap);
         intake = hardwareMap.get(Servo.class, "intake");
 
-        Pose2d highPolePos = new Pose2d(7 + 23.4 - 2 - 9 - 1, -7 + 2 - 1, Math.toRadians(45));
+        Pose2d highPolePos = new Pose2d(7 + 23.4 - 2 - 9 - 1 - 0.5, -7 + 2 - 1 + 0.5, Math.toRadians(45));
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPose)
                 .setTangent(Math.toRadians(-10 + 180))
                 .splineToConstantHeading(
