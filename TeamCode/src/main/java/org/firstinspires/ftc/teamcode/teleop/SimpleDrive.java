@@ -34,6 +34,7 @@ public class SimpleDrive extends LinearOpMode {
     public static double intakeEnd = 0.17;
     double intakeMod = intakeEnd - intakeStart;
     double intakePos = 0;
+    boolean limitsDisabled;
 
 
 
@@ -61,11 +62,11 @@ public class SimpleDrive extends LinearOpMode {
             intake.setPosition(intakePos);
 
             liftPos = lift.getCurrentPosition();
-
-            if (gamepad2.y && liftPos <= 4028) {
+            limitsDisabled = gamepad2.left_trigger >= 0.2;
+            if (gamepad2.y && (liftPos <= 4028 || limitsDisabled)) {
                 lift.setPower(1);
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else if (gamepad2.a && liftPos >= 0) {
+            } else if (gamepad2.a && (liftPos >= 0 || limitsDisabled)) {
                 lift.setPower(-1);
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             } else if (gamepad2.x) {
