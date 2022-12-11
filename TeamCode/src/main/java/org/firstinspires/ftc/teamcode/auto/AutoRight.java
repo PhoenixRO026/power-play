@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.teleop.SimpleDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
@@ -28,14 +29,94 @@ public class AutoRight extends LinearOpMode {
         lift = new Lift(hardwareMap);
         intake = hardwareMap.get(Servo.class, "intake");
 
+        Pose2d highPolePos = new Pose2d(7 + 23.4 - 2 - 9 - 1, -7 + 2 - 1, Math.toRadians(45));
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPose)
-                .waitSeconds(0.5)
-                .forward(40)
-                .splineTo(new Vector2d(7+23.4, -7), Math.toRadians(135))
-                .waitSeconds(0.5)
-                .addTemporalMarker(3, () -> {
+                .setTangent(Math.toRadians(-10 + 180))
+                .splineToConstantHeading(
+                        new Vector2d(10, -47),
+                        Math.toRadians(90),
+                        SampleMecanumDrive.getVelocityConstraint(30, 40, 12.18),
+                        SampleMecanumDrive.getAccelerationConstraint(40)
+                )
+                .addTemporalMarker(0, () -> {
+                    liftHeight = 800;
+                })
+                .splineToSplineHeading(
+                        highPolePos,
+                        Math.toRadians(45)
+                )
+                .addTemporalMarker(4, () -> {
                     intakePos = intakeEnd;
                 })
+                .waitSeconds(1)
+                .back(3)
+                .addTemporalMarker(4.5, () -> {
+                    liftHeight = 0;
+                })
+                .splineToSplineHeading(
+                        new Pose2d(11, -12, Math.toRadians(90)),
+                        Math.toRadians(30 - 180)
+                )
+                .strafeRight(45)
+                .build();
+
+        TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(initPose)
+                .setTangent(Math.toRadians(-10 + 180))
+                .splineToConstantHeading(
+                        new Vector2d(10, -47),
+                        Math.toRadians(90),
+                        SampleMecanumDrive.getVelocityConstraint(30, 40, 12.18),
+                        SampleMecanumDrive.getAccelerationConstraint(40)
+                )
+                .addTemporalMarker(0, () -> {
+                    liftHeight = 800;
+                })
+                .splineToSplineHeading(
+                        highPolePos,
+                        Math.toRadians(45)
+                )
+                .addTemporalMarker(4, () -> {
+                    intakePos = intakeEnd;
+                })
+                .waitSeconds(1)
+                .back(3)
+                .addTemporalMarker(4.5, () -> {
+                    liftHeight = 0;
+                })
+                .splineToSplineHeading(
+                        new Pose2d(11, -12, Math.toRadians(90)),
+                        Math.toRadians(30 - 180)
+                )
+                .strafeRight(24)
+                .build();
+
+        TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(initPose)
+                .setTangent(Math.toRadians(-10 + 180))
+                .splineToConstantHeading(
+                        new Vector2d(10, -47),
+                        Math.toRadians(90),
+                        SampleMecanumDrive.getVelocityConstraint(30, 40, 12.18),
+                        SampleMecanumDrive.getAccelerationConstraint(40)
+                )
+                .addTemporalMarker(0, () -> {
+                    liftHeight = 800;
+                })
+                .splineToSplineHeading(
+                        highPolePos,
+                        Math.toRadians(45)
+                )
+                .addTemporalMarker(4, () -> {
+                    intakePos = intakeEnd;
+                })
+                .waitSeconds(1)
+                .back(3)
+                .addTemporalMarker(4.5, () -> {
+                    liftHeight = 0;
+                })
+                .splineToSplineHeading(
+                        new Pose2d(11, -12, Math.toRadians(90)),
+                        Math.toRadians(30 - 180)
+                )
                 .build();
 
         int result = 13;
@@ -52,7 +133,7 @@ public class AutoRight extends LinearOpMode {
             sleep(20);
         }
 
-        /*switch (result) {
+        switch (result) {
             case 13:
                 drive.followTrajectorySequenceAsync(trajSeq1);
                 break;
@@ -62,10 +143,9 @@ public class AutoRight extends LinearOpMode {
             case 15:
                 drive.followTrajectorySequenceAsync(trajSeq3);
                 break;
-        }*/
+        }
 
-        drive.followTrajectorySequenceAsync(trajSeq3);
-        liftHeight = 900;
+        //drive.followTrajectorySequenceAsync(trajSeq3);
 
         boolean savedPose = false;
         while (opModeIsActive()) {
