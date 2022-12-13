@@ -14,6 +14,8 @@ public class MeepMeepTesting {
         // With a field size of 800 pixels
         MeepMeep meepMeep = new MeepMeep(700);
 
+        Pose2d start = new Pose2d(0, 0, Math.toRadians(90));
+
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.17323, 17.71654)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -21,8 +23,9 @@ public class MeepMeepTesting {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(35.5, -61.5, Math.toRadians(90)))
-                                .forward(20)
+                        drive.trajectorySequenceBuilder(start)
+                                .setTangent(Math.toRadians(180))
+                                .splineToSplineHeading(new Pose2d(-45, 45, Math.toRadians(90)), Math.toRadians(270))
                                 .build()
                 );
 
