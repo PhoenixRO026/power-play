@@ -22,37 +22,11 @@ public class MeepMeepTesting {
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(35.5, -61.5, Math.toRadians(90)))
-                                .setTangent(Math.toRadians(-10 + 180))
-                                .splineToConstantHeading(
-                                        new Vector2d(10, -47),
-                                        Math.toRadians(90),
-                                        SampleMecanumDrive.getVelocityConstraint(30, 40, 12.18),
-                                        SampleMecanumDrive.getAccelerationConstraint(40)
-                                )
-                                .addTemporalMarker(0, () -> {
-                                    //liftHeight = 800;
-                                })
-                                .splineToSplineHeading(
-                                        new Pose2d(7 + 23.4 - 2 - 9 - 1 - 0.5, -7 + 2 - 1 + 0.5, Math.toRadians(45)),
-                                        Math.toRadians(45)
-                                )
-                                .addTemporalMarker(4, () -> {
-                                    //intakePos = intakeEnd;
-                                })
-                                .waitSeconds(1)
-                                .back(3)
-                                .addTemporalMarker(4.5, () -> {
-                                    //liftHeight = 0;
-                                })
-                                .splineToSplineHeading(
-                                        new Pose2d(11, -12, Math.toRadians(90)),
-                                        Math.toRadians(30 - 180)
-                                )
-                                .strafeRight(45)
+                                .forward(20)
                                 .build()
                 );
 
-        RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)
+        /*RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.17323, 17.71654)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(48.47814086141882, 52.48180821614297, Math.toRadians(243.95269725695957), Math.toRadians(180), 12.18)
@@ -88,7 +62,7 @@ public class MeepMeepTesting {
                                 )
                                 .strafeLeft(45)
                                 .build()
-                );
+                );*/
 
         // Set field image
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
@@ -96,7 +70,7 @@ public class MeepMeepTesting {
                 // Background opacity from 0-1
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)
-                .addEntity(myBot2)
+                //.addEntity(myBot2)
                 .start();
     }
 }
