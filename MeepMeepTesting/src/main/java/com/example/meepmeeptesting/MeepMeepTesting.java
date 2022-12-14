@@ -12,20 +12,29 @@ public class MeepMeepTesting {
     public static void main(String[] args) {
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
-        MeepMeep meepMeep = new MeepMeep(700);
+        MeepMeep meepMeep = new MeepMeep(670);
 
         Pose2d start = new Pose2d(0, 0, Math.toRadians(90));
 
+        Pose2d highJunctionPose = new Pose2d(-7 - 23.4 + 2 + 9 + 1 + 0.5, -7 + 2 - 1 + 0.5, Math.toRadians(135));
+
+        Pose2d initPose = new Pose2d(-36, -63.15, Math.toRadians(90));
+
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-                .setDimensions(14.17323, 17.71654)
+                .setDimensions(14.17323, 16.92913)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(48.47814086141882, 52.48180821614297, Math.toRadians(243.95269725695957), Math.toRadians(180), 12.18)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(start)
-                                .setTangent(Math.toRadians(180))
-                                .splineToSplineHeading(new Pose2d(-45, 45, Math.toRadians(90)), Math.toRadians(270))
+                        drive.trajectorySequenceBuilder(initPose)
+                                .setTangent(Math.toRadians(10))
+                                .splineToConstantHeading(new Vector2d(-10.2, -46.56), Math.toRadians(90))
+                                .addDisplacementMarker(() -> {})
+                                .splineTo(new Vector2d(-24 + 4.5 / 2, 0 - 4.5), Math.toRadians(135))
+                                .addTemporalMarker(() -> {})
+                                .waitSeconds(1)
+                                .back(10)
                                 .build()
                 );
 

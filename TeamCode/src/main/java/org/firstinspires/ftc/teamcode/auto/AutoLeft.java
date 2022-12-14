@@ -40,7 +40,7 @@ public class AutoLeft extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 800;
+                    liftHeight = 820;
                 })
                 .splineToSplineHeading(
                         highJunctionPose,
@@ -69,7 +69,7 @@ public class AutoLeft extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 800;
+                    liftHeight = 820;
                 })
                 .splineToSplineHeading(
                         highJunctionPose,
@@ -99,7 +99,7 @@ public class AutoLeft extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 800;
+                    liftHeight = 820;
                 })
                 .splineToSplineHeading(
                         highJunctionPose,

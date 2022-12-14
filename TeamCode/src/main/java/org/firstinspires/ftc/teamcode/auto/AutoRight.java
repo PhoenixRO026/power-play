@@ -39,7 +39,7 @@ public class AutoRight extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 800;
+                    liftHeight = 820;
                 })
                 .splineToSplineHeading(
                         highPolePos,
@@ -69,7 +69,7 @@ public class AutoRight extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 800;
+                    liftHeight = 820;
                 })
                 .splineToSplineHeading(
                         highPolePos,
@@ -99,7 +99,7 @@ public class AutoRight extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 800;
+                    liftHeight = 820;
                 })
                 .splineToSplineHeading(
                         highPolePos,
