@@ -1,5 +1,10 @@
 package CursProgramare;
 
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -31,11 +36,17 @@ public class CursRoadRunner extends LinearOpMode {
 
         trajectorySequence = drive.trajectorySequenceBuilder(start)
                 .setTangent(Math.toRadians(10))
-                .splineToConstantHeading(new Vector2d(-10.2, -46.56), Math.toRadians(90))
-                .addDisplacementMarker(() -> {
+                .addTemporalMarker(() -> {
                     liftPos = 820;
                 })
-                .splineTo(new Vector2d(-24 + 4.5 / 2, 0 - 4.5), Math.toRadians(135))
+                .splineToConstantHeading(new Vector2d(-10.2, -46.56), Math.toRadians(90))
+                .splineTo(new Vector2d(-10, -20), Math.toRadians(90))
+                .splineTo(
+                        new Vector2d(-24 + 5.985351, 0 - 5.985351),
+                        Math.toRadians(135),
+                        SampleMecanumDrive.getVelocityConstraint(MAX_VEL / 2, MAX_ANG_VEL, TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(MAX_ACCEL)
+                )
                 .addTemporalMarker(() -> {
                     intakePos = SimpleDrive.intakeEnd;
                 })

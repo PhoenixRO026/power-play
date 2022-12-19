@@ -1,5 +1,8 @@
 package com.example.meepmeeptesting;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
@@ -9,6 +12,12 @@ import com.noahbres.meepmeep.roadrunner.SampleMecanumDrive;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
+
+    public static double MAX_VEL = 48.47814086141882;
+    public static double MAX_ACCEL = 52.48180821614297;
+    public static double MAX_ANG_VEL = Math.toRadians(243.95269725695957);
+    public static double MAX_ANG_ACCEL = Math.toRadians(184.02607784577722);
+    public static double TRACK_WIDTH = 12.18; // in
     public static void main(String[] args) {
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
@@ -23,15 +32,21 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.17323, 16.92913)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(48.47814086141882, 52.48180821614297, Math.toRadians(243.95269725695957), Math.toRadians(180), 12.18)
+                .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(initPose)
                                 .setTangent(Math.toRadians(10))
+                                .addTemporalMarker(() -> {})
                                 .splineToConstantHeading(new Vector2d(-10.2, -46.56), Math.toRadians(90))
-                                .addDisplacementMarker(() -> {})
-                                .splineTo(new Vector2d(-24 + 4.5 / 2, 0 - 4.5), Math.toRadians(135))
+                                .splineTo(new Vector2d(-10, -20), Math.toRadians(90))
+                                .splineTo(
+                                        new Vector2d(-24 + 5.985351, 0 - 5.985351),
+                                        Math.toRadians(135),
+                                        SampleMecanumDrive.getVelocityConstraint(MAX_VEL / 2, MAX_ANG_VEL, TRACK_WIDTH),
+                                        SampleMecanumDrive.getAccelerationConstraint(MAX_ACCEL)
+                                )
                                 .addTemporalMarker(() -> {})
                                 .waitSeconds(1)
                                 .back(10)
