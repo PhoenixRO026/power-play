@@ -24,6 +24,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.zip.DeflaterOutputStream;
 
 /*
  * This routine is designed to tune the PID coefficients used by the REV Expansion Hubs for closed-

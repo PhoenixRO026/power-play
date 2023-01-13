@@ -31,7 +31,7 @@ public class SimpleDrive extends LinearOpMode {
     int liftPos = 0;
 
     public static double intakeStart = 0.31;
-    public static double intakeEnd = 0.17;
+    public static double intakeEnd = 0.04;
     double intakeMod = intakeEnd - intakeStart;
     double intakePos = 0;
     boolean limitsDisabled;
