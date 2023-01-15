@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -8,20 +12,44 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.teleop.SimpleDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+@Config
 @Autonomous(name = "Auto Left")
 public class AutoLeft extends LinearOpMode {
     AutoDrive drive;
-    Pose2d initPose = new Pose2d(-35.5, -61.5, Math.toRadians(90));
+    Pose2d initPose = new Pose2d(-36, -64.9, Math.toRadians(90));
     Lift lift;
     Servo intake;
     double intakeStart = SimpleDrive.intakeStart;
     double intakeEnd = SimpleDrive.intakeEnd;
     double liftHeight = 0;
     double intakePos = intakeStart;
+
+    public static double maxAngVelMulti = 0.8;
+    public static double maxVelMulti = 0.8;
+
+    public static double robotLenght = 14.173;
+
+    public static double diff = sqrt(pow(robotLenght / 2, 2) / 2);
+
+    //public static double clawLenght = 2.5;
+
+    public static double clawDiff = 4;
+
+    public static double sideClawDiff = 1;
+
+    Pose2d highPolePos = new Pose2d(-(24 - diff - clawDiff - sideClawDiff), -diff - clawDiff + sideClawDiff, Math.toRadians(90 + 45));
+
+    Vector2d pose1 = new Vector2d(-13, -47);
+
+    Pose2d pose2 = new Pose2d(-12, -12, Math.toRadians(90));
+
+    double topHeight = 838;
+
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new AutoDrive(hardwareMap, initPose);
@@ -29,93 +57,100 @@ public class AutoLeft extends LinearOpMode {
         lift = new Lift(hardwareMap);
         intake = hardwareMap.get(Servo.class, "intake");
 
-        Pose2d highJunctionPose = new Pose2d(-7 - 23.4 + 2 + 9 + 1 + 0.5, -7 + 2 - 1 + 0.5, Math.toRadians(135));
-
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPose)
-                .setTangent(Math.toRadians(10))
+                .setTangent(Math.toRadians(90 - 80))
                 .splineToConstantHeading(
-                        new Vector2d(-10, -47),
+                        pose1,
                         Math.toRadians(90),
                         SampleMecanumDrive.getVelocityConstraint(30, 40, 12.18),
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 820;
+                    liftHeight = topHeight;
                 })
                 .splineToSplineHeading(
-                        highJunctionPose,
-                        Math.toRadians(135)
+                        highPolePos,
+                        Math.toRadians(90 + 25),
+                        SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * maxVelMulti, DriveConstants.MAX_ANG_VEL * maxAngVelMulti, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .addTemporalMarker(4, () -> {
                     intakePos = intakeEnd;
                 })
-                .waitSeconds(1)
-                .back(3)
-                .addTemporalMarker(4.5, () -> {
+                .waitSeconds(1.5)
+                //.back(3)
+                .addTemporalMarker(5, () -> {
                     liftHeight = 0;
                 })
-                .splineToSplineHeading(
-                        new Pose2d(-11, -12, Math.toRadians(90)),
-                        Math.toRadians(-30)
+                .setTangent(Math.toRadians(270 + 45))
+                .splineToLinearHeading(
+                        pose2,
+                        Math.toRadians(270 + 45)
                 )
                 .build();
 
         TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(initPose)
-                .setTangent(Math.toRadians(10))
+                .setTangent(Math.toRadians(90 - 80))
                 .splineToConstantHeading(
-                        new Vector2d(-10, -47),
+                        pose1,
                         Math.toRadians(90),
                         SampleMecanumDrive.getVelocityConstraint(30, 40, 12.18),
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 820;
+                    liftHeight = topHeight;
                 })
                 .splineToSplineHeading(
-                        highJunctionPose,
-                        Math.toRadians(135)
+                        highPolePos,
+                        Math.toRadians(90 + 25),
+                        SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * maxVelMulti, DriveConstants.MAX_ANG_VEL * maxAngVelMulti, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .addTemporalMarker(4, () -> {
                     intakePos = intakeEnd;
                 })
-                .waitSeconds(1)
-                .back(3)
-                .addTemporalMarker(4.5, () -> {
+                .waitSeconds(1.5)
+                //.back(3)
+                .addTemporalMarker(5, () -> {
                     liftHeight = 0;
                 })
-                .splineToSplineHeading(
-                        new Pose2d(-11, -12, Math.toRadians(90)),
-                        Math.toRadians(-30)
+                .setTangent(Math.toRadians(270 + 45))
+                .splineToLinearHeading(
+                        pose2,
+                        Math.toRadians(270 + 45)
                 )
                 .strafeLeft(24)
                 .build();
 
         TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(initPose)
-                .setTangent(Math.toRadians(10))
+                .setTangent(Math.toRadians(90 - 80))
                 .splineToConstantHeading(
-                        new Vector2d(-10, -47),
+                        pose1,
                         Math.toRadians(90),
                         SampleMecanumDrive.getVelocityConstraint(30, 40, 12.18),
                         SampleMecanumDrive.getAccelerationConstraint(40)
                 )
                 .addTemporalMarker(0, () -> {
-                    liftHeight = 820;
+                    liftHeight = topHeight;
                 })
                 .splineToSplineHeading(
-                        highJunctionPose,
-                        Math.toRadians(135)
+                        highPolePos,
+                        Math.toRadians(90 + 25),
+                        SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * maxVelMulti, DriveConstants.MAX_ANG_VEL * maxAngVelMulti, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .addTemporalMarker(4, () -> {
                     intakePos = intakeEnd;
                 })
-                .waitSeconds(1)
-                .back(3)
-                .addTemporalMarker(4.5, () -> {
+                .waitSeconds(1.5)
+                //.back(3)
+                .addTemporalMarker(5, () -> {
                     liftHeight = 0;
                 })
-                .splineToSplineHeading(
-                        new Pose2d(-11, -12, Math.toRadians(90)),
-                        Math.toRadians(-30)
+                .setTangent(Math.toRadians(270 + 45))
+                .splineToLinearHeading(
+                        pose2,
+                        Math.toRadians(270 + 45)
                 )
                 .strafeLeft(45)
                 .build();

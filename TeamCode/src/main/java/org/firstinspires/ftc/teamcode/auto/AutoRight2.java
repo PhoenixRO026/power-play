@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.teleop.SimpleDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Config
-@Autonomous(name = "Auto Right")
-public class AutoRight extends LinearOpMode {
+@Autonomous(name = "Auto Right 2")
+public class AutoRight2 extends LinearOpMode {
     AutoDrive drive;
     Pose2d initPose = new Pose2d(36, -64.9, Math.toRadians(90));
     Lift lift;
@@ -42,10 +42,10 @@ public class AutoRight extends LinearOpMode {
 
     public static double sideClawDiff = 1;
 
-    Pose2d highPolePos = new Pose2d(24 - diff - clawDiff - sideClawDiff, -diff - clawDiff + sideClawDiff, Math.toRadians(90 - 45));
+    Pose2d highPolePos = new Pose2d(24 - diff - clawDiff - sideClawDiff, -diff - clawDiff + sideClawDiff, Math.toRadians(45));
 
     Vector2d pose1 = new Vector2d(13, -47);
-    
+
     Pose2d pose2 = new Pose2d(12, -12, Math.toRadians(90));
 
     double topHeight = 838;
@@ -58,7 +58,7 @@ public class AutoRight extends LinearOpMode {
         intake = hardwareMap.get(Servo.class, "intake");
 
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPose)
-                .setTangent(Math.toRadians(90 + 80))
+                .setTangent(Math.toRadians(180 - 10))
                 .splineToConstantHeading(
                         pose1,
                         Math.toRadians(90),
@@ -82,16 +82,15 @@ public class AutoRight extends LinearOpMode {
                 .addTemporalMarker(5, () -> {
                     liftHeight = 0;
                 })
-                .setTangent(Math.toRadians(270 - 45))
+                .setTangent(Math.toRadians(270 + 45))
                 .splineToLinearHeading(
                         pose2,
-                        Math.toRadians(270 - 45)
+                        Math.toRadians(270 + 45)
                 )
-                .strafeRight(45)
                 .build();
 
         TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(initPose)
-                .setTangent(Math.toRadians(90 + 80))
+                .setTangent(Math.toRadians(10))
                 .splineToConstantHeading(
                         pose1,
                         Math.toRadians(90),
@@ -103,7 +102,7 @@ public class AutoRight extends LinearOpMode {
                 })
                 .splineToSplineHeading(
                         highPolePos,
-                        Math.toRadians(90 - 25),
+                        Math.toRadians(90 + 25),
                         SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * maxVelMulti, DriveConstants.MAX_ANG_VEL * maxAngVelMulti, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -115,16 +114,16 @@ public class AutoRight extends LinearOpMode {
                 .addTemporalMarker(5, () -> {
                     liftHeight = 0;
                 })
-                .setTangent(Math.toRadians(270 - 45))
+                .setTangent(270)
                 .splineToLinearHeading(
                         pose2,
-                        Math.toRadians(270 - 45)
+                        Math.toRadians(180 + 45)
                 )
-                .strafeRight(24)
+                .strafeLeft(24)
                 .build();
 
         TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(initPose)
-                .setTangent(Math.toRadians(90 + 80))
+                .setTangent(Math.toRadians(10))
                 .splineToConstantHeading(
                         pose1,
                         Math.toRadians(90),
@@ -136,7 +135,7 @@ public class AutoRight extends LinearOpMode {
                 })
                 .splineToSplineHeading(
                         highPolePos,
-                        Math.toRadians(90 - 25),
+                        Math.toRadians(90 + 25),
                         SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * maxVelMulti, DriveConstants.MAX_ANG_VEL * maxAngVelMulti, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -148,11 +147,12 @@ public class AutoRight extends LinearOpMode {
                 .addTemporalMarker(5, () -> {
                     liftHeight = 0;
                 })
-                .setTangent(Math.toRadians(270 - 45))
+                .setTangent(270)
                 .splineToLinearHeading(
                         pose2,
-                        Math.toRadians(270 - 45)
+                        Math.toRadians(180 + 45)
                 )
+                .strafeLeft(45)
                 .build();
 
         int result = 13;
