@@ -1,13 +1,16 @@
 package com.example.constants;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
+@Config
 public class Constants {
 
     public static double MAX_VEL = 52.48291908330528;
     public static double MAX_ACCEL = 52.48291908330528;
     public static double MAX_ANG_VEL = Math.toRadians(240.5639808);
     public static double MAX_ANG_ACCEL = Math.toRadians(240.5639808);
+    public static double TRACK_WIDTH = 12.525;
 
     public static Pose2d leftInitPose = new Pose2d(-35.5, -63.5, Math.toRadians(90));
     public static Pose2d rightInitPose = new Pose2d(-leftInitPose.getX(), leftInitPose.getY(), leftInitPose.getHeading());
