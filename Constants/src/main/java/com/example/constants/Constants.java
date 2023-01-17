@@ -23,13 +23,14 @@ public class Constants {
 
     public static double pose1Y = -fieldSize / 12;
     public static double pose1X = fieldSize / 4;
+    public static double pose1Heading = Math.toRadians(90 + 45);
 
     public static class MMConsts {
         public static Pose2d rightInitPose = new Pose2d(Constants.initPoseX, Constants.initPoseY, Math.toRadians(90));
         public static Pose2d leftInitPose = new Pose2d(-Constants.initPoseX, Constants.initPoseY, Math.toRadians(90));
 
-        public static Vector2d rightPose1 = new Vector2d(Constants.pose1X, Constants.pose1Y);
-        public static Vector2d leftPose1 = new Vector2d(-Constants.pose1X, Constants.pose1Y);
+        public static Pose2d rightPose1 = new Pose2d(Constants.pose1X, Constants.pose1Y);
+        public static Pose2d leftPose1 = new Pose2d(-Constants.pose1X, Constants.pose1Y);
     }
 
     public static Pose2d oppositeSide(Pose2d pose) {

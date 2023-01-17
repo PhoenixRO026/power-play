@@ -22,5 +22,12 @@ public class AutoConst {
     public static Pose2d2 leftInitPose = new Pose2d2(-Constants.initPoseX, Constants.initPoseY, Math.toRadians(90));
 
     public static Vector2d2 rightPose1 = new Vector2d2(Constants.pose1X, Constants.pose1Y);
+    public static double rightPose1Heading = Constants.pose1Heading;
+
     public static Vector2d2 leftPose1 = new Vector2d2(-Constants.pose1X, Constants.pose1Y);
+
+    public static double flipHeading(double heading) {
+        double headingDeg = Math.toDegrees(heading);
+        return Math.toRadians(headingDeg + (180 - headingDeg));
+    }
 }

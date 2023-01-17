@@ -29,7 +29,7 @@ public class MeepMeepTesting {
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(Constants.MMConsts.rightInitPose)
-                                .lineTo(Constants.MMConsts.rightPose1)
+                                .splineTo(new Vector2d(24, 0), Math.toRadians(90 + 45))
                                 .build()
                 );
 

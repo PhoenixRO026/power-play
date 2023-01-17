@@ -26,7 +26,7 @@ public class CycleRight extends LinearOpMode {
                 .addTemporalMarker(() -> {
                     liftHeight = AutoConst.topLiftHeight;
                 })
-                .lineTo(AutoConst.rightPose1.vector2d())
+                .splineTo(AutoConst.rightPose1.vector2d(), AutoConst.rightPose1Heading)
                 .build();
 
         telemetry.addLine("ready");
