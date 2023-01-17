@@ -20,7 +20,8 @@ public class Constants {
     public static double topLiftHeight = 838;
 
     public static double ROBOT_WIDTH = 14.1732;
-    public static double ROBOT_LENGT = 17.20472;
+    public static double ROBOT_LENGT = ROBOT_WIDTH;
+    public static double ROBOT_TRUE_LENGT = 17.20472;
 
     public static Pose2d rightPoseInit = new Pose2d(
             fieldSize / 4,
@@ -30,10 +31,9 @@ public class Constants {
 
     public static double rightHeading1 = Math.toRadians(90 + 30);
     public static Vector2d rightVector1 = new Vector2d(
-            fieldSize / 6 - ROBOT_LENGT * cos(rightHeading1) / 2,
-            -ROBOT_LENGT * sin(rightHeading1) / 2
+            fieldSize / 6 - ROBOT_TRUE_LENGT * cos(rightHeading1) / 2,
+            -ROBOT_TRUE_LENGT * sin(rightHeading1) / 2
     );
-
 
     public static Vector2d flipVector(Vector2d pose) {
         return new Vector2d(-pose.getX(), pose.getY());
