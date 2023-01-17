@@ -1,6 +1,8 @@
 package com.example.constants;
 
+import static java.lang.Math.cos;
 import static java.lang.Math.pow;
+import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -26,11 +28,12 @@ public class Constants {
             Math.toRadians(90)
     );
 
+    public static double rightHeading1 = Math.toRadians(90 + 30);
     public static Vector2d rightVector1 = new Vector2d(
-            fieldSize / 4 + sqrt(pow(ROBOT_LENGT / 2, 2) / 2),
-            -fieldSize / 12 - sqrt(pow(ROBOT_LENGT / 2, 2) / 2)
+            fieldSize / 6 - ROBOT_LENGT * cos(rightHeading1) / 2,
+            -ROBOT_LENGT * sin(rightHeading1) / 2
     );
-    public static double rightHeading1 = Math.toRadians(90 + 45);
+
 
     public static Vector2d flipVector(Vector2d pose) {
         return new Vector2d(-pose.getX(), pose.getY());
