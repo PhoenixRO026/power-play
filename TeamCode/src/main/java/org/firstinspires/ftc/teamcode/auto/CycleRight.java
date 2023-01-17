@@ -18,15 +18,13 @@ public class CycleRight extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new AutoDrive(hardwareMap, AutoConst.rightInitPose.pose2d());
+        drive = new AutoDrive(hardwareMap, AutoConst.rightPoseInit);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         lift = new Lift(hardwareMap);
 
-        sequence = drive.trajectorySequenceBuilder(AutoConst.rightInitPose.pose2d())
-                .addTemporalMarker(() -> {
-                    liftHeight = AutoConst.topLiftHeight;
-                })
-                .splineTo(AutoConst.rightPose1.vector2d(), AutoConst.rightPose1Heading)
+        sequence = drive.trajectorySequenceBuilder(AutoConst.rightPoseInit)
+                .addTemporalMarker(() -> liftHeight = AutoConst.topLiftHeight)
+                .splineTo(AutoConst.rightVector1, AutoConst.rightHeading1)
                 .build();
 
         telemetry.addLine("ready");

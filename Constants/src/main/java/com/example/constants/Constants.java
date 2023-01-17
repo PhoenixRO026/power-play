@@ -1,10 +1,12 @@
 package com.example.constants;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 
 public class Constants {
-
     public static double fieldSize = 141;
 
     public static double MAX_VEL = 52.48291908330528;
@@ -18,26 +20,28 @@ public class Constants {
     public static double ROBOT_WIDTH = 14.1732;
     public static double ROBOT_LENGT = 17.20472;
 
-    public static double initPoseY = -fieldSize / 2 + ROBOT_LENGT / 2;
-    public static double initPoseX = fieldSize / 4;
+    public static Pose2d rightPoseInit = new Pose2d(
+            fieldSize / 4,
+            -fieldSize / 2 + ROBOT_LENGT / 2,
+            Math.toRadians(90)
+    );
 
-    public static double pose1Y = -fieldSize / 12;
-    public static double pose1X = fieldSize / 4;
-    public static double pose1Heading = Math.toRadians(90 + 45);
+    public static Vector2d rightVector1 = new Vector2d(
+            fieldSize / 4 + sqrt(pow(ROBOT_LENGT / 2, 2) / 2),
+            -fieldSize / 12 - sqrt(pow(ROBOT_LENGT / 2, 2) / 2)
+    );
+    public static double rightHeading1 = Math.toRadians(90 + 45);
 
-    public static class MMConsts {
-        public static Pose2d rightInitPose = new Pose2d(Constants.initPoseX, Constants.initPoseY, Math.toRadians(90));
-        public static Pose2d leftInitPose = new Pose2d(-Constants.initPoseX, Constants.initPoseY, Math.toRadians(90));
-
-        public static Pose2d rightPose1 = new Pose2d(Constants.pose1X, Constants.pose1Y);
-        public static Pose2d leftPose1 = new Pose2d(-Constants.pose1X, Constants.pose1Y);
-    }
-
-    public static Pose2d oppositeSide(Pose2d pose) {
-        return new Pose2d(-pose.getX(), pose.getY(), pose.getHeading());
-    }
-
-    public static Vector2d oppositeSide(Vector2d pose) {
+    public static Vector2d flipVector(Vector2d pose) {
         return new Vector2d(-pose.getX(), pose.getY());
+    }
+
+    public static double flipHeading(double heading) {
+        double headingDeg = Math.toDegrees(heading) % 360;
+        return Math.toRadians((540 - headingDeg) % 360);
+    }
+
+    public static Pose2d flipPose(Pose2d pose) {
+        return new Pose2d(-pose.getX(), pose.getY(), flipHeading(pose.getHeading()));
     }
 }

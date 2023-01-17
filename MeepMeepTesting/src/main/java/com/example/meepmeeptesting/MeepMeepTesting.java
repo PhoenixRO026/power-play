@@ -1,16 +1,9 @@
 package com.example.meepmeeptesting;
 
-import static java.lang.Math.max;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
-
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.example.constants.Constants;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
-import com.noahbres.meepmeep.roadrunner.SampleMecanumDrive;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
@@ -28,8 +21,8 @@ public class MeepMeepTesting {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(Constants.MMConsts.rightInitPose)
-                                .splineTo(new Vector2d(24, 0), Math.toRadians(90 + 45))
+                        drive.trajectorySequenceBuilder(Constants.rightPoseInit)
+                                .splineTo(Constants.rightVector1, Constants.rightHeading1)
                                 .build()
                 );
 
