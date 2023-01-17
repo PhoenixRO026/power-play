@@ -4,6 +4,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.example.constants.Constants;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.checkerframework.checker.units.qual.C;
+import org.firstinspires.ftc.teamcode.auto.AutoConst;
+
 /*
  * Constants shared between multiple drive types.
  *
@@ -47,7 +50,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1.005386589392647; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = Constants.TRACK_WIDTH; // in
+    public static double TRACK_WIDTH = AutoConst.TRACK_WIDTH; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -87,10 +90,10 @@ public class DriveConstants {
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
 
      */
-    public static double MAX_VEL = Constants.MAX_VEL;
-    public static double MAX_ACCEL = Constants.MAX_ACCEL;
-    public static double MAX_ANG_VEL = Constants.MAX_ANG_VEL;
-    public static double MAX_ANG_ACCEL = Constants.MAX_ANG_ACCEL;
+    public static double MAX_VEL = AutoConst.MAX_VEL;
+    public static double MAX_ACCEL = AutoConst.MAX_ACCEL;
+    public static double MAX_ANG_VEL = AutoConst.MAX_ANG_VEL;
+    public static double MAX_ANG_ACCEL = AutoConst.MAX_ANG_ACCEL;
 
 
     public static double encoderTicksToInches(double ticks) {
