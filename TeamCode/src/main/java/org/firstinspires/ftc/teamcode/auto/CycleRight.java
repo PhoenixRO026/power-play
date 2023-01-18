@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import static org.firstinspires.ftc.teamcode.auto.AutoConst.*;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -18,13 +22,14 @@ public class CycleRight extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new AutoDrive(hardwareMap, AutoConst.rightPoseInit);
+        AutoConst consts = new AutoConst();
+        drive = new AutoDrive(hardwareMap, new Pose2d(consts.rightInit.X, consts.rightInit.Y, consts.rightInit.HEADING));
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         lift = new Lift(hardwareMap);
 
-        sequence = drive.trajectorySequenceBuilder(AutoConst.rightPoseInit)
-                .addTemporalMarker(() -> liftHeight = AutoConst.topLiftHeight)
-                .splineTo(AutoConst.rightVector1, AutoConst.rightHeading1)
+        sequence = drive.trajectorySequenceBuilder(new Pose2d(consts.rightInit.X, consts.rightInit.Y, consts.rightInit.HEADING))
+                .addTemporalMarker(() -> liftHeight = topLiftHeight)
+                .splineTo(new Vector2d(consts.right1.X, consts.right1.Y), consts.right1.HEADING)
                 .build();
 
         telemetry.addLine("ready");

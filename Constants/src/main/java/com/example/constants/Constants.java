@@ -1,9 +1,7 @@
 package com.example.constants;
 
 import static java.lang.Math.cos;
-import static java.lang.Math.pow;
 import static java.lang.Math.sin;
-import static java.lang.Math.sqrt;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -21,18 +19,21 @@ public class Constants {
 
     public static double ROBOT_WIDTH = 14.1732;
     public static double ROBOT_LENGT = ROBOT_WIDTH;
-    public static double ROBOT_TRUE_LENGT = 17.20472;
+    public static double ROBOT_TRUE_LENGT = 16;
+    public static double CLAW_OFFSET = 0;
+    public static double ROBOT_LENGHT_DIFF = ROBOT_TRUE_LENGT - ROBOT_LENGT;
 
-    public static Pose2d rightPoseInit = new Pose2d(
+    public Pose rightInit = new Pose (
             fieldSize / 4,
             -fieldSize / 2 + ROBOT_LENGT / 2,
-            Math.toRadians(90)
+            90
     );
 
-    public static double rightHeading1 = Math.toRadians(90 + 30);
-    public static Vector2d rightVector1 = new Vector2d(
-            fieldSize / 6 - ROBOT_TRUE_LENGT * cos(rightHeading1) / 2,
-            -ROBOT_TRUE_LENGT * sin(rightHeading1) / 2
+    private static final double RIGHT_1_HEADING_DEG = 90 + 30;
+    public Pose right1 = new Pose(
+            fieldSize / 6 - (ROBOT_TRUE_LENGT + ROBOT_LENGHT_DIFF) * cos(Math.toRadians(RIGHT_1_HEADING_DEG)) / 2 + CLAW_OFFSET * sin(Math.toRadians(RIGHT_1_HEADING_DEG)),
+            -(ROBOT_TRUE_LENGT + ROBOT_LENGHT_DIFF) * sin(Math.toRadians(RIGHT_1_HEADING_DEG)) / 2 - CLAW_OFFSET * cos(Math.toRadians(RIGHT_1_HEADING_DEG)),
+            RIGHT_1_HEADING_DEG
     );
 
     public static Vector2d flipVector(Vector2d pose) {
