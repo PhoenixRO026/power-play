@@ -1,8 +1,7 @@
 package com.example.meepmeeptesting;
 
 import static com.example.constants.Constants.*;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
+
 import com.example.constants.Constants;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
@@ -16,7 +15,7 @@ public class MeepMeepTesting {
 
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
-        MeepMeep meepMeep = new MeepMeep(670);
+        MeepMeep meepMeep = new MeepMeep(680);
 
         RoadRunnerBotEntity myBot1 = new DefaultBotBuilder(meepMeep)
                 .setDimensions(ROBOT_WIDTH, ROBOT_LENGT)
@@ -25,8 +24,28 @@ public class MeepMeepTesting {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(constants.rightInit.X, constants.rightInit.Y, constants.rightInit.HEADING))
-                                .splineTo(new Vector2d(constants.right1.X, constants.right1.Y), constants.right1.HEADING)
+                        drive.trajectorySequenceBuilder(constants.rightInit)
+                                .splineTo(constants.right1.vec(), constants.right1.getHeading())
+                                .setTangent(RIGHT_2_TANGENT)        //1
+                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
+                                .setTangent(RIGHT_3_TANGENT)
+                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
+                                .setTangent(RIGHT_2_TANGENT)        //2
+                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
+                                .setTangent(RIGHT_3_TANGENT)
+                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
+                                .setTangent(RIGHT_2_TANGENT)        //3
+                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
+                                .setTangent(RIGHT_3_TANGENT)
+                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
+                                .setTangent(RIGHT_2_TANGENT)        //4
+                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
+                                .setTangent(RIGHT_3_TANGENT)
+                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
+                                .setTangent(RIGHT_2_TANGENT)        //5
+                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
+                                .setTangent(RIGHT_3_TANGENT)
+                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
                                 .build()
                 );
 
@@ -37,8 +56,28 @@ public class MeepMeepTesting {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(flipPose(new Pose2d(constants.rightInit.X, constants.rightInit.Y, constants.rightInit.HEADING)))
-                                .splineTo(new Vector2d(constants.left1.X, constants.left1.Y), constants.left1.HEADING)
+                        drive.trajectorySequenceBuilder(flipPose(constants.rightInit))
+                                .splineTo(constants.left1.vec(), constants.left1.getHeading())
+                                .setTangent(LEFT_2_TANGENT)         //1
+                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
+                                .setTangent(LEFT_3_TANGENT)
+                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
+                                .setTangent(LEFT_2_TANGENT)         //2
+                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
+                                .setTangent(LEFT_3_TANGENT)
+                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
+                                .setTangent(LEFT_2_TANGENT)         //3
+                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
+                                .setTangent(LEFT_3_TANGENT)
+                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
+                                .setTangent(LEFT_2_TANGENT)         //4
+                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
+                                .setTangent(LEFT_3_TANGENT)
+                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
+                                .setTangent(LEFT_2_TANGENT)         //5
+                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
+                                .setTangent(LEFT_3_TANGENT)
+                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
                                 .build()
                 );
 
