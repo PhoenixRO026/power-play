@@ -18,7 +18,7 @@ public class MeepMeepTesting {
         // With a field size of 800 pixels
         MeepMeep meepMeep = new MeepMeep(670);
 
-        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity myBot1 = new DefaultBotBuilder(meepMeep)
                 .setDimensions(ROBOT_WIDTH, ROBOT_LENGT)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
@@ -30,12 +30,25 @@ public class MeepMeepTesting {
                                 .build()
                 );
 
+        RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)
+                .setDimensions(ROBOT_WIDTH, ROBOT_LENGT)
+                // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
+                // Option: Set theme. Default = ColorSchemeRedDark()
+                .setColorScheme(new ColorSchemeRedDark())
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(flipPose(new Pose2d(constants.rightInit.X, constants.rightInit.Y, constants.rightInit.HEADING)))
+                                .splineTo(new Vector2d(constants.left1.X, constants.left1.Y), constants.left1.HEADING)
+                                .build()
+                );
+
         // Set field image
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
                 .setDarkMode(true)
                 // Background opacity from 0-1
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
+                .addEntity(myBot1)
+                .addEntity(myBot2)
                 .start();
     }
 }

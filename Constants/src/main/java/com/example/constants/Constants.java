@@ -20,7 +20,7 @@ public class Constants {
     public static double ROBOT_WIDTH = 14.1732;
     public static double ROBOT_LENGT = ROBOT_WIDTH;
     public static double ROBOT_TRUE_LENGT = 16;
-    public static double CLAW_OFFSET = 0;
+    public static double CLAW_OFFSET = 2;
     public static double ROBOT_LENGHT_DIFF = ROBOT_TRUE_LENGT - ROBOT_LENGT;
 
     public Pose rightInit = new Pose (
@@ -35,17 +35,28 @@ public class Constants {
             -(ROBOT_TRUE_LENGT + ROBOT_LENGHT_DIFF) * sin(Math.toRadians(RIGHT_1_HEADING_DEG)) / 2 - CLAW_OFFSET * cos(Math.toRadians(RIGHT_1_HEADING_DEG)),
             RIGHT_1_HEADING_DEG
     );
+    private static final double LEFT_1_HEADING_DEG = flipHeadingDeg(RIGHT_1_HEADING_DEG);
+    public Pose left1 = new Pose(
+            -(fieldSize / 6 - (ROBOT_TRUE_LENGT + ROBOT_LENGHT_DIFF) * -cos(Math.toRadians(LEFT_1_HEADING_DEG)) / 2) + CLAW_OFFSET * sin(Math.toRadians(LEFT_1_HEADING_DEG)),
+            -(ROBOT_TRUE_LENGT + ROBOT_LENGHT_DIFF) * sin(Math.toRadians(LEFT_1_HEADING_DEG)) / 2 - CLAW_OFFSET * cos(Math.toRadians(LEFT_1_HEADING_DEG)),
+            LEFT_1_HEADING_DEG
+    );
 
     public static Vector2d flipVector(Vector2d pose) {
         return new Vector2d(-pose.getX(), pose.getY());
     }
 
-    public static double flipHeading(double heading) {
+    public static double flipHeadingRad(double heading) {
         double headingDeg = Math.toDegrees(heading) % 360;
         return Math.toRadians((540 - headingDeg) % 360);
     }
 
+    public static double flipHeadingDeg(double heading) {
+        double headingDeg = heading % 360;
+        return (540 - headingDeg) % 360;
+    }
+
     public static Pose2d flipPose(Pose2d pose) {
-        return new Pose2d(-pose.getX(), pose.getY(), flipHeading(pose.getHeading()));
+        return new Pose2d(-pose.getX(), pose.getY(), flipHeadingRad(pose.getHeading()));
     }
 }
