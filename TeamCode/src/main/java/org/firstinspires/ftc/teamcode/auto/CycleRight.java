@@ -27,7 +27,7 @@ public class CycleRight extends LinearOpMode {
 
         sequence = drive.trajectorySequenceBuilder(consts.rightInit)
                 .addTemporalMarker(() -> liftHeight = topLiftHeight)
-                .splineTo(consts.right1.vec(), consts.right1.getHeading())
+                .splineTo(consts.right1.vec, consts.right1.HEADING)
                 .build();
 
         telemetry.addLine("ready");

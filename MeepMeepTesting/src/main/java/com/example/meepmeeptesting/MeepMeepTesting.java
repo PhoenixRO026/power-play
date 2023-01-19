@@ -18,66 +18,66 @@ public class MeepMeepTesting {
         MeepMeep meepMeep = new MeepMeep(680);
 
         RoadRunnerBotEntity myBot1 = new DefaultBotBuilder(meepMeep)
-                .setDimensions(ROBOT_WIDTH, ROBOT_LENGT)
+                .setDimensions(ROBOT_WIDTH, ROBOT_LENGTH)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(constants.rightInit)
-                                .splineTo(constants.right1.vec(), constants.right1.getHeading())
-                                .setTangent(RIGHT_2_TANGENT)        //1
-                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
-                                .setTangent(RIGHT_3_TANGENT)
-                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
-                                .setTangent(RIGHT_2_TANGENT)        //2
-                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
-                                .setTangent(RIGHT_3_TANGENT)
-                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
-                                .setTangent(RIGHT_2_TANGENT)        //3
-                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
-                                .setTangent(RIGHT_3_TANGENT)
-                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
-                                .setTangent(RIGHT_2_TANGENT)        //4
-                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
-                                .setTangent(RIGHT_3_TANGENT)
-                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
-                                .setTangent(RIGHT_2_TANGENT)        //5
-                                .splineToLinearHeading(constants.right2, Math.toRadians(0))
-                                .setTangent(RIGHT_3_TANGENT)
-                                .splineToLinearHeading(constants.right3, constants.right3.getHeading())
+                                .splineTo(constants.right1.vec, constants.right1.END_TANGENT)
+                                .setTangent(constants.right2.START_TANGENT)        //1
+                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .setTangent(constants.right3.START_TANGENT)
+                                .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
+                                .setTangent(constants.right2.START_TANGENT)        //2
+                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .setTangent(constants.right3.START_TANGENT)
+                                .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
+                                .setTangent(constants.right2.START_TANGENT)        //3
+                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .setTangent(constants.right3.START_TANGENT)
+                                .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
+                                .setTangent(constants.right2.START_TANGENT)        //4
+                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .setTangent(constants.right3.START_TANGENT)
+                                .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
+                                .setTangent(constants.right2.START_TANGENT)        //5
+                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .setTangent(constants.right3.START_TANGENT)
+                                .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
                                 .build()
                 );
 
         RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)
-                .setDimensions(ROBOT_WIDTH, ROBOT_LENGT)
+                .setDimensions(ROBOT_WIDTH, ROBOT_LENGTH)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(flipPose(constants.rightInit))
-                                .splineTo(constants.left1.vec(), constants.left1.getHeading())
-                                .setTangent(LEFT_2_TANGENT)         //1
-                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
-                                .setTangent(LEFT_3_TANGENT)
-                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
-                                .setTangent(LEFT_2_TANGENT)         //2
-                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
-                                .setTangent(LEFT_3_TANGENT)
-                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
-                                .setTangent(LEFT_2_TANGENT)         //3
-                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
-                                .setTangent(LEFT_3_TANGENT)
-                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
-                                .setTangent(LEFT_2_TANGENT)         //4
-                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
-                                .setTangent(LEFT_3_TANGENT)
-                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
-                                .setTangent(LEFT_2_TANGENT)         //5
-                                .splineToLinearHeading(constants.left2, Math.toRadians(180))
-                                .setTangent(LEFT_3_TANGENT)
-                                .splineToLinearHeading(constants.left3, constants.left3.getHeading())
+                                .splineTo(constants.left1.vec, constants.left1.HEADING)
+                                .setTangent(constants.left2.START_TANGENT)         //1
+                                .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .setTangent(constants.left3.START_TANGENT)
+                                .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .setTangent(constants.left2.START_TANGENT)         //2
+                                .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .setTangent(constants.left3.START_TANGENT)
+                                .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .setTangent(constants.left2.START_TANGENT)         //3
+                                .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .setTangent(constants.left3.START_TANGENT)
+                                .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .setTangent(constants.left2.START_TANGENT)         //4
+                                .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .setTangent(constants.left3.START_TANGENT)
+                                .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .setTangent(constants.left2.START_TANGENT)         //5
+                                .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .setTangent(constants.left3.START_TANGENT)
+                                .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
                                 .build()
                 );
 
