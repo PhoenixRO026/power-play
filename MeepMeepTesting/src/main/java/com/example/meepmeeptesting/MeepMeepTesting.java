@@ -15,7 +15,7 @@ public class MeepMeepTesting {
 
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
-        MeepMeep meepMeep = new MeepMeep(680);
+        MeepMeep meepMeep = new MeepMeep(650);
 
         RoadRunnerBotEntity myBot1 = new DefaultBotBuilder(meepMeep)
                 .setDimensions(ROBOT_WIDTH, ROBOT_LENGTH)

@@ -7,7 +7,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.teleop.SimpleDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Config
@@ -16,7 +18,9 @@ public class CycleRight extends LinearOpMode {
     AutoDrive drive;
     TrajectorySequence sequence;
     Lift lift;
-    double liftHeight = 0;
+    Servo intake;
+    double liftHeight = 100;
+    double intakePos = SimpleDrive.intakeStart;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,10 +28,17 @@ public class CycleRight extends LinearOpMode {
         drive = new AutoDrive(hardwareMap, consts.rightInit);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         lift = new Lift(hardwareMap);
+        intake = hardwareMap.get(Servo.class, "intake");
 
         sequence = drive.trajectorySequenceBuilder(consts.rightInit)
                 .addTemporalMarker(() -> liftHeight = topLiftHeight)
                 .splineTo(consts.right1.vec, consts.right1.HEADING)
+                .waitSeconds(0.25)
+                .addTemporalMarker(() -> intakePos = SimpleDrive.intakeEnd)
+                .waitSeconds(0.25)
+                .addTemporalMarker(() -> liftHeight = 200)
+                .setTangent(consts.right2.START_TANGENT)
+                .splineToLinearHeading(consts.right2.poseTan, consts.right2.HEADING)
                 .build();
 
         telemetry.addLine("ready");
@@ -40,6 +51,7 @@ public class CycleRight extends LinearOpMode {
         while (opModeIsActive()) {
             drive.update();
             lift.setHeightMM(liftHeight);
+            intake.setPosition(intakePos);
             telemetry.addData("Lift height MM", lift.getHeightMM());
             telemetry.update();
         }

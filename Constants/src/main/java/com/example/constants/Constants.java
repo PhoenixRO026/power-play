@@ -10,15 +10,14 @@ public class Constants {
     public static double MAX_ANG_VEL = Math.toRadians(240.5639808);
     public static double MAX_ANG_ACCEL = Math.toRadians(240.5639808);
     public static double TRACK_WIDTH = 12.525;
-    public static double topLiftHeight = 838;
+    public static double topLiftHeight = 858;
     public static double ROBOT_WIDTH = 14.1732;
     public static double ROBOT_LENGTH = ROBOT_WIDTH;
     //public static double ROBOT_TRUE_LENGTH = 16;
     public static double HORIZONTAL_LOW_CLAW_OFFSET = 0;
-    public static double VERTICAL_LOW_CLAW_OFFSET = 0;
+    public static double VERTICAL_LOW_CLAW_OFFSET = -1.5748;
     public static double HORIZONTAL_HIGH_CLAW_OFFSET = 0;
-    public static double VERTICAL_HIGH_CLAW_OFFSET = 0;
-    //public static double ROBOT_LENGHT_DIFF = ROBOT_TRUE_LENGTH - ROBOT_LENGTH;
+    public static double VERTICAL_HIGH_CLAW_OFFSET = -2;
 
     public static double CONE_RADIUS = 4;
 

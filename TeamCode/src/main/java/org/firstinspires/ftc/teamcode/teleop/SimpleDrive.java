@@ -66,17 +66,21 @@ public class SimpleDrive extends LinearOpMode {
             if (gamepad2.y && (liftPos <= 4028 || limitsDisabled)) {
                 lift.setPower(1);
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else if (gamepad2.a && (liftPos >= 0 || limitsDisabled)) {
+            } else if (gamepad2.a && (liftPos >= 100 || limitsDisabled)) {
                 lift.setPower(-1);
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             } else if (gamepad2.x) {
-                lift.setTargetPosition(0);
+                lift.setTargetPosition(100);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (lift.isBusy() && lift.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {
                 lift.setPower(1);
             } else {
                 lift.setPower(0);
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+            if (gamepad2.left_bumper) {
+                gamepad2.rumble(1, 1, -1);
             }
 
 
