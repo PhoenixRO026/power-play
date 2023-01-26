@@ -80,7 +80,19 @@ public class SimpleDrive extends LinearOpMode {
             }
 
             if (gamepad2.left_bumper) {
+                gamepad1.rumble(1, 1, -1);
+            } else {
+                gamepad1.stopRumble();
+            }
+
+            if (gamepad1.left_bumper) {
                 gamepad2.rumble(1, 1, -1);
+            } else {
+                gamepad2.stopRumble();
+            }
+
+            if (gamepad1.y) {
+                drive.setPoseEstimate(new Pose2d(drive.getPoseEstimate().getX(), drive.getPoseEstimate().getY(), Math.toRadians(0)));
             }
 
 

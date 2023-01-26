@@ -26,26 +26,40 @@ public class MeepMeepTesting {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(constants.rightInit)
                                 .splineTo(constants.right1.vec, constants.right1.END_TANGENT)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.right2.START_TANGENT)        //1
                                 .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.right3.START_TANGENT)
                                 .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
-                                .setTangent(constants.right2.START_TANGENT)        //2
-                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .waitSeconds(0.5)
+                                .setTangent(constants.right4.START_TANGENT)        //2
+                                .splineToLinearHeading(constants.right4.poseTan, constants.right4.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.right3.START_TANGENT)
                                 .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
-                                .setTangent(constants.right2.START_TANGENT)        //3
-                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .waitSeconds(0.5)
+                                .setTangent(constants.right4.START_TANGENT)        //3
+                                .splineToLinearHeading(constants.right4.poseTan, constants.right4.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.right3.START_TANGENT)
                                 .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
-                                .setTangent(constants.right2.START_TANGENT)        //4
-                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .waitSeconds(0.5)
+                                .setTangent(constants.right4.START_TANGENT)        //4
+                                .splineToLinearHeading(constants.right4.poseTan, constants.right4.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.right3.START_TANGENT)
                                 .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
-                                .setTangent(constants.right2.START_TANGENT)        //5
-                                .splineToLinearHeading(constants.right2.poseTan, constants.right2.HEADING)
+                                .waitSeconds(0.5)
+                                .setTangent(constants.right4.START_TANGENT)        //5
+                                .splineToLinearHeading(constants.right4.poseTan, constants.right4.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.right3.START_TANGENT)
                                 .splineToLinearHeading(constants.right3.poseTan, constants.right3.HEADING)
+                                .waitSeconds(0.5)
+                                .setTangent(constants.rightPark.START_TANGENT)
+                                .splineToLinearHeading(constants.rightPark.poseHed, constants.rightPark.END_TANGENT)
+                                .strafeLeft(24)
                                 .build()
                 );
 
@@ -58,26 +72,37 @@ public class MeepMeepTesting {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(flipPose(constants.rightInit))
                                 .splineTo(constants.left1.vec, constants.left1.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left2.START_TANGENT)         //1
                                 .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left3.START_TANGENT)
                                 .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left2.START_TANGENT)         //2
                                 .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left3.START_TANGENT)
                                 .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left2.START_TANGENT)         //3
                                 .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left3.START_TANGENT)
                                 .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left2.START_TANGENT)         //4
                                 .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left3.START_TANGENT)
                                 .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left2.START_TANGENT)         //5
                                 .splineToLinearHeading(constants.left2.poseTan, constants.left2.HEADING)
+                                .waitSeconds(0.5)
                                 .setTangent(constants.left3.START_TANGENT)
                                 .splineToLinearHeading(constants.left3.poseTan, constants.left3.HEADING)
+                                .waitSeconds(0.5)
                                 .build()
                 );
 
