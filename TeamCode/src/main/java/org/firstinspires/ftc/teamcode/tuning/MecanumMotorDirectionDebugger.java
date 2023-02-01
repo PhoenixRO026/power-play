@@ -87,6 +87,11 @@ public class MecanumMotorDirectionDebugger extends LinearOpMode {
                 telemetry.addLine("Running Motor: None");
             }
 
+            telemetry.addData("Front Left Ticks", drive.leftFront.getCurrentPosition());
+            telemetry.addData("Front Right Ticks", drive.rightFront.getCurrentPosition());
+            telemetry.addData("Back Left Ticks", drive.leftBack.getCurrentPosition());
+            telemetry.addData("Back Right Ticks", drive.rightBack.getCurrentPosition());
+
             telemetry.update();
         }
     }
