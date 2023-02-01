@@ -31,6 +31,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -49,14 +50,14 @@ import java.util.List;
 @Config
 public final class MecanumDrive {
     // drive model parameters
-    public static double IN_PER_TICK = 0;
-    public static double LATERAL_IN_PER_TICK = 1;
-    public static double TRACK_WIDTH_TICKS = 0;
+    public static double IN_PER_TICK = 0.0221180263800684;
+    public static double LATERAL_IN_PER_TICK = 0.0221939215686275;
+    public static double TRACK_WIDTH_TICKS = 756.3197088665255;
 
     // feedforward parameters
-    public static double kS = 0;
-    public static double kV = 0;
-    public static double kA = 0;
+    public static double kS = 2.2;
+    public static double kV = 0.17;
+    public static double kA = 0.01;
 
     // path profile parameters
     public static double MAX_WHEEL_VEL = 50;
@@ -111,8 +112,8 @@ public final class MecanumDrive {
         private int lastLeftFrontPos, lastLeftRearPos, lastRightRearPos, lastRightFrontPos;
 
         public DriveLocalizer() {
-            leftFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftFront));
-            leftRear = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftBack));
+            leftFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftFront, DcMotorSimple.Direction.REVERSE));
+            leftRear = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftBack, DcMotorSimple.Direction.REVERSE));
             rightRear = new OverflowEncoder(new RawEncoder(MecanumDrive.this.rightBack));
             rightFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.rightFront));
 
@@ -177,10 +178,13 @@ public final class MecanumDrive {
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
