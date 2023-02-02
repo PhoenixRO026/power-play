@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.tuning;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.teamcode.util.Encoder;
@@ -18,6 +21,8 @@ public final class AngularRampLogger extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        Telemetry telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), this.telemetry);
+
         DriveView view = new DriveView(hardwareMap);
 
         class Data {
@@ -94,6 +99,9 @@ public final class AngularRampLogger extends LinearOpMode {
                 data.rightPowers.get(i).add(power);
                 data.rightPowerTimes.get(i).add(t.addSplit());
             }
+
+            telemetry.addData("power", power(t.seconds()));
+            telemetry.update();
 
             data.voltages.add(view.voltageSensor.getVoltage());
             data.voltageTimes.add(t.addSplit());

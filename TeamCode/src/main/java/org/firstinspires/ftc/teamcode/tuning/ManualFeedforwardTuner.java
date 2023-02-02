@@ -12,6 +12,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 @Config
 public class ManualFeedforwardTuner extends LinearOpMode {
@@ -70,6 +71,19 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                         v = v.unaryMinus();
                     }
                     telemetry.addData("vref", v.get(0));
+                    telemetry.addData("aref", v.get(1));
+
+                    if (v.get(1) != 0 && Math.signum(v.get(1)) != Math.signum(v.get(0))) {
+                        v = new DualNum<>(
+                                new double[]{
+                                        v.get(0) * MecanumDrive.VEL_MULTIPLY,
+                                        v.get(1) * MecanumDrive.ACCEL_MULTIPLY
+                                }
+                        );
+                    }
+
+                    telemetry.addData("vref2", v.get(0));
+                    telemetry.addData("aref2", v.get(1));
 
                     double power = view.feedforward().compute(v) / view.voltageSensor.getVoltage();
                     view.setDrivePowers(new Twist2d(new Vector2d(power, 0), 0));
