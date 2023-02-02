@@ -12,11 +12,6 @@ public final class RawEncoder implements Encoder {
         this.m = m;
     }
 
-    public RawEncoder(DcMotorEx m, DcMotorSimple.Direction direction) {
-        this.m = m;
-        this.direction = direction;
-    }
-
     private int applyDirection(int x) {
         if (m.getDirection() == DcMotorSimple.Direction.REVERSE) {
             x = -x;
