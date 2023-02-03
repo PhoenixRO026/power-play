@@ -4,7 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 
 public class Constants {
-    public static double fieldSize = 141;
+    public static double fieldSize = 141.1;
     public static double MAX_VEL = 38;
     public static double MAX_ACCEL = 38;
     public static double MAX_ANG_VEL = Math.toRadians(240.5639808);

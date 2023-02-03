@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "Auto Right")
 public class AutoRight extends LinearOpMode {
     AutoDrive drive;
-    Pose2d initPose = new Pose2d(36, -64.9, Math.toRadians(90));
+    Pose2d initPose = new Pose2d(36, -66.7, Math.toRadians(90));
     Lift lift;
     Servo intake;
     double intakeStart = SimpleDrive.intakeStart;
@@ -42,9 +42,9 @@ public class AutoRight extends LinearOpMode {
 
     public static double sideClawDiff = 1;
 
-    Pose2d highPolePos = new Pose2d(24 - diff - clawDiff - sideClawDiff, -diff - clawDiff + sideClawDiff, Math.toRadians(90 - 45));
+    Pose2d highPolePos = new Pose2d(24 - diff - clawDiff - sideClawDiff, -diff - clawDiff + sideClawDiff, Math.toRadians(90 - 48));
 
-    Vector2d pose1 = new Vector2d(13, -47);
+    Vector2d pose1 = new Vector2d(13.5, -47);
     
     Pose2d pose2 = new Pose2d(12, -12, Math.toRadians(90));
 

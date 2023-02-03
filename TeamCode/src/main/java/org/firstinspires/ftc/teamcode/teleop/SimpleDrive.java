@@ -59,14 +59,15 @@ public class SimpleDrive extends LinearOpMode {
         while (opModeIsActive()) {
             movement();
             intakePos = intakeStart + gamepad2.right_trigger * intakeMod;
-            intake.setPosition(intakePos);
-
+            /*if (gamepad1.right_trigger >= 0) */intake.setPosition(intakePos);
+            /*else if (gamepad1.x) intake.setPosition(intakeEnd);
+            else intake.setPosition(intakeStart);*/
             liftPos = lift.getCurrentPosition();
-            limitsDisabled = gamepad2.left_trigger >= 0.2;
-            if (gamepad2.y && (liftPos <= 4028 || limitsDisabled)) {
+            limitsDisabled = gamepad2.left_trigger >= 0.2 || gamepad1.right_bumper;
+            if (gamepad2.y || gamepad1.y && (liftPos <= 4028 || limitsDisabled)) {
                 lift.setPower(1);
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else if (gamepad2.a && (liftPos >= 100 || limitsDisabled)) {
+            } else if (gamepad2.a || gamepad1.a && (liftPos >= 100 || limitsDisabled)) {
                 lift.setPower(-1);
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             } else if (gamepad2.x) {
@@ -131,17 +132,17 @@ public class SimpleDrive extends LinearOpMode {
 
         double leftX, leftY, rightX;
 
-        if(gamepad1.dpad_left || gamepad1.dpad_right)
+        /*if(gamepad1.dpad_left || gamepad1.dpad_right)
             leftX = -btoi(gamepad1.dpad_left) + btoi(gamepad1.dpad_right);
-        else leftX = gamepad1.left_stick_x;
+        else */leftX = gamepad1.left_stick_x;
 
-        if(gamepad1.dpad_down || gamepad1.dpad_up)
+        /*if(gamepad1.dpad_down || gamepad1.dpad_up)
             leftY = -btoi(gamepad1.dpad_down) + btoi(gamepad1.dpad_up);
-        else leftY = -gamepad1.left_stick_y;
+        else*/ leftY = -gamepad1.left_stick_y;
 
-        if(gamepad1.x || gamepad1.b)
+        /*if(gamepad1.x || gamepad1.b)
             rightX = -btoi(gamepad1.x) + btoi(gamepad1.b);
-        else rightX = gamepad1.right_stick_x;
+        else */rightX = gamepad1.right_stick_x;
 
         drive.update();
 
