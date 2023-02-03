@@ -58,13 +58,14 @@ public final class MecanumDrive {
     public static double kS = 0;
     public static double kV = 0.22;
     public static double kA = 0.03;
+    public static double kSDecel = 0;
+    public static double kVDecel = 0.22;
+    public static double kADecel = 0.03;
 
     // path profile parameters
-    public static double MAX_WHEEL_VEL = 30;
-    public static double MIN_PROFILE_ACCEL = -30;
-    public static double ACCEL_MULTIPLY = 1;
-    public static double VEL_MULTIPLY = 0.5;
-    public static double MAX_PROFILE_ACCEL = 30;
+    public static double MAX_WHEEL_VEL = 40;
+    public static double MIN_PROFILE_ACCEL = -40;
+    public static double MAX_PROFILE_ACCEL = 40;
 
     // turn profile parameters
     public static double MAX_ANG_VEL = Math.PI; // shared with path

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.tuning;
 
-import com.acmerobotics.roadrunner.MotorFeedforward;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Twist2d;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -13,6 +12,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.TankDrive;
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
+import org.firstinspires.ftc.teamcode.util.CustomMotorFeedfoward;
 import org.firstinspires.ftc.teamcode.util.Encoder;
 import org.firstinspires.ftc.teamcode.util.Localizer;
 import org.firstinspires.ftc.teamcode.util.OverflowEncoder;
@@ -144,13 +144,13 @@ final class DriveView {
         }
     }
 
-    public MotorFeedforward feedforward() {
+    public CustomMotorFeedfoward feedforward() {
         if (md != null) {
-            return new MotorFeedforward(MecanumDrive.kS, MecanumDrive.kV, MecanumDrive.kA);
+            return new CustomMotorFeedfoward(MecanumDrive.kS, MecanumDrive.kV, MecanumDrive.kA, MecanumDrive.kSDecel, MecanumDrive.kVDecel, MecanumDrive.kADecel);
         }
 
         if (td != null) {
-            return new MotorFeedforward(TankDrive.kS, TankDrive.kV, TankDrive.kA);
+            return new CustomMotorFeedfoward(TankDrive.kS, TankDrive.kV, TankDrive.kA);
         }
 
         throw new AssertionError();
