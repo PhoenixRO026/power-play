@@ -146,7 +146,7 @@ final class DriveView {
 
     public CustomMotorFeedfoward feedforward() {
         if (md != null) {
-            return new CustomMotorFeedfoward(MecanumDrive.kS, MecanumDrive.kV, MecanumDrive.kA, MecanumDrive.kSDecel, MecanumDrive.kVDecel, MecanumDrive.kADecel);
+            return new CustomMotorFeedfoward(MecanumDrive.kS, MecanumDrive.kV, MecanumDrive.kA, MecanumDrive.kdecelS, MecanumDrive.kdecelV, MecanumDrive.kdecelA);
         }
 
         if (td != null) {
