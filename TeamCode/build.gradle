@@ -35,4 +35,6 @@ dependencies {
     implementation 'org.openftc:apriltag:1.1.0'
 
     implementation project(':Constants')
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
 }
