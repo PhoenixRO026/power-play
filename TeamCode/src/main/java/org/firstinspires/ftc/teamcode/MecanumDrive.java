@@ -59,7 +59,7 @@ public final class MecanumDrive {
     public static double kV = 0.22;
     public static double kA = 0.03;
     public static double kdecelS = 0;
-    public static double kdecelV = 0.22;
+    public static double kdecelV = 0.09;
     public static double kdecelA = 0.03;
 
     // path profile parameters
