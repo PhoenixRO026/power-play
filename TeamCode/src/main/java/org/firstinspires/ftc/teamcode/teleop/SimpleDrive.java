@@ -58,10 +58,8 @@ public class SimpleDrive extends LinearOpMode {
 
         while (opModeIsActive()) {
             movement();
-            intakePos = intakeStart + gamepad2.right_trigger * intakeMod;
-            /*if (gamepad1.right_trigger >= 0) */intake.setPosition(intakePos);
-            /*else if (gamepad1.x) intake.setPosition(intakeEnd);
-            else intake.setPosition(intakeStart);*/
+            intakePos = intakeStart + Math.max(gamepad2.right_trigger, gamepad1.right_trigger) * intakeMod;
+            intake.setPosition(intakePos);
             liftPos = lift.getCurrentPosition();
             limitsDisabled = gamepad2.left_trigger >= 0.2 || gamepad1.right_bumper;
             if (gamepad2.y || gamepad1.y && (liftPos <= 4028 || limitsDisabled)) {
@@ -95,19 +93,6 @@ public class SimpleDrive extends LinearOpMode {
             if (gamepad1.y) {
                 drive.setPoseEstimate(new Pose2d(drive.getPoseEstimate().getX(), drive.getPoseEstimate().getY(), Math.toRadians(0)));
             }
-
-
-            /*lift.setAngle(liftAngle, 1);
-            if (time > liftLastTime + timeStep) {
-                if (gamepad1.right_bumper) {
-                    liftLastTime = time;
-                    liftAngle += liftStep;
-                } else if (gamepad1.left_bumper) {
-                    liftLastTime = time;
-                    if (liftAngle > 0)
-                        liftAngle -= liftStep;
-                }
-            }*/
 
             telemetry.addData("Mode", lift.getMode());
             telemetry.addData("Is busy", lift.isBusy());
