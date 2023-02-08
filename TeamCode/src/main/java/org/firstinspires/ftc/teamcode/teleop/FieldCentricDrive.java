@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(name = "Field Centric Drive")
+@TeleOp(name = "Field Centric KotlinDrive")
 public class FieldCentricDrive extends LinearOpMode {
     SampleMecanumDrive drive;
     Servo intake;
@@ -74,14 +74,14 @@ public class FieldCentricDrive extends LinearOpMode {
             moveIntake();
             moveLift();
 
-            telemetry.addData("Lift pos", liftPos);
-            telemetry.addData("Lift target pos", liftTarget);
+            telemetry.addData("Lift position", liftPos);
+            telemetry.addData("Lift target position", liftTarget);
             telemetry.addData("Lift velocity", lift.getVelocity());
             telemetry.addData("Lift limits disabled", liftLimitsDisabled);
             telemetry.addData("Lift state", liftState);
             telemetry.addData("Lift mode", lift.getMode());
             telemetry.addData("Lift power", lift.getPower());
-            telemetry.addData("Intake pos", intakePos);
+            telemetry.addData("Intake position", intakePos);
             telemetry.addData("Sniper mode", sniperMode);
             telemetry.update();
         }

@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(name = "Simple Drive")
+@TeleOp(name = "Simple KotlinDrive")
 public class SimpleDrive extends LinearOpMode {
     SampleMecanumDrive drive;
     Servo intake;
@@ -96,9 +96,9 @@ public class SimpleDrive extends LinearOpMode {
 
             telemetry.addData("Mode", lift.getMode());
             telemetry.addData("Is busy", lift.isBusy());
-            telemetry.addData("Target pos", lift.getTargetPosition());
-            telemetry.addData("Intake pos", intakePos);
-            telemetry.addData("Lift pos", liftPos);
+            telemetry.addData("Target position", lift.getTargetPosition());
+            telemetry.addData("Intake position", intakePos);
+            telemetry.addData("Lift position", liftPos);
             telemetry.update();
         }
     }
