@@ -47,8 +47,6 @@ public final class LogFiles {
         public long nsInit = System.nanoTime();
         public long nsStart, nsStop;
 
-        //public String driveClassName = TuningOpModes.DRIVE_CLASS.getCanonicalName();
-
         public double ticksPerRev = DriveConstants.TICKS_PER_REV;
         public double maxRpm = DriveConstants.MAX_RPM;
         public boolean runUsingEncoder = DriveConstants.RUN_USING_ENCODER;
