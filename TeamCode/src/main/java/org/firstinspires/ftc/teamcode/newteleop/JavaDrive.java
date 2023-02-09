@@ -27,6 +27,8 @@ public class JavaDrive extends LinearOpMode {
 
             robot.intake.setPosition(gamepad1.right_trigger);
 
+            robot.drive.setSniperMode(gamepad1.left_trigger >= 0.2);
+
             robot.drive.driveFieldCentric(
                 gamepad1.left_stick_x,
                 gamepad1.left_stick_y,

@@ -26,6 +26,8 @@ class KotlinDrive : LinearOpMode() {
 
             robot.intake.position = gamepad1.right_trigger
 
+            robot.drive.sniperMode = gamepad1.left_trigger >= 0.2
+
             robot.drive.driveFieldCentric(
                 gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
