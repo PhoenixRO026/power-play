@@ -1,6 +1,13 @@
 package com.example.meepmeeptesting;
 
-import static com.example.constants.Constants.*;
+import static com.example.constants.Constants.MAX_ACCEL;
+import static com.example.constants.Constants.MAX_ANG_ACCEL;
+import static com.example.constants.Constants.MAX_ANG_VEL;
+import static com.example.constants.Constants.MAX_VEL;
+import static com.example.constants.Constants.ROBOT_LENGTH;
+import static com.example.constants.Constants.ROBOT_WIDTH;
+import static com.example.constants.Constants.TRACK_WIDTH;
+import static com.example.constants.Constants.flipPose;
 
 import com.example.constants.Constants;
 import com.noahbres.meepmeep.MeepMeep;
@@ -9,8 +16,11 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
-
     public static void main(String[] args) {
+        meep();
+    }
+
+    public static void meep() {
         Constants constants = new Constants();
 
         // Declare a MeepMeep instance
