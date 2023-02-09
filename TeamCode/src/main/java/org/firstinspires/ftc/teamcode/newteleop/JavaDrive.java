@@ -20,12 +20,21 @@ public class JavaDrive extends LinearOpMode {
 
         while (!this.isStopRequested() && this.isStarted()) {
             robot.update();
+
             robot.intake.setPosition(gamepad1.right_trigger);
+
             robot.drive.driveFieldCentric(
                 gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
                 gamepad1.right_stick_x
             );
+
+            if (gamepad1.right_bumper)
+                robot.lift.setPower(1);
+            else if (gamepad1.left_bumper)
+                robot.lift.setPower(-1);
+            else robot.lift.setPower(0);
+
             telemetry.update();
         }
     }
