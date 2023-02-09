@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.newteleop
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.arcrobotics.ftclib.gamepad.ButtonReader
-import com.arcrobotics.ftclib.gamepad.GamepadEx
-import com.arcrobotics.ftclib.gamepad.GamepadKeys
 import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -12,21 +10,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 @Disabled
 @TeleOp
 class KotlinDrive : LinearOpMode() {
-    lateinit var robot: Robot
-    lateinit var pad1: GamepadEx
-    lateinit var pad2: GamepadEx
+    private lateinit var robot: Robot
+    private lateinit var liftLimitButton: ButtonReader
 
     override fun runOpMode() {
         telemetry = MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().telemetry)
         robot = Robot(hardwareMap, telemetry)
-        pad1 = GamepadEx(gamepad1)
-        pad2 = GamepadEx(gamepad2)
+        liftLimitButton = ButtonReader { gamepad1.x || gamepad2.x }
 
         waitForStart()
 
         while (!this.isStopRequested && this.isStarted) {
             robot.update()
-            pad1.readButtons()
+            liftLimitButton.readValue()
 
             robot.intake.position = gamepad1.right_trigger
 
@@ -36,13 +32,9 @@ class KotlinDrive : LinearOpMode() {
                 gamepad1.right_stick_x
             )
 
-            if (pad1.stateJustChanged(GamepadKeys.Button.X)) {
+            if (liftLimitButton.wasJustPressed()) {
                 robot.lift.limitsDisabled = robot.lift.limitsDisabled.not()
                 gamepad1.rumble(1.0, 1.0, 20)
-            }
-
-            if (pad2.stateJustChanged(GamepadKeys.Button.X)) {
-                robot.lift.limitsDisabled = robot.lift.limitsDisabled.not()
                 gamepad2.rumble(1.0, 1.0, 20)
             }
 
@@ -52,9 +44,5 @@ class KotlinDrive : LinearOpMode() {
 
             telemetry.update()
         }
-    }
-
-    private fun Boolean.flip() {
-
     }
 }
