@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(name = "Field Centric KotlinDrive")
+@TeleOp(name = "Field Centric Drive")
 public class FieldCentricDrive extends LinearOpMode {
     SampleMecanumDrive drive;
     Servo intake;

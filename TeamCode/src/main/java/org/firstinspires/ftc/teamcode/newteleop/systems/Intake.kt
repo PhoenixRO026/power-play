@@ -12,10 +12,10 @@ class Intake(
     private val servoStart = 0.29
     private val servoEnd = 0.04
     private var servoMod = servoEnd - servoStart
-    var position
+    var position : Number
         get() = servo.position
         set(value) {
-            servo.position = servoStart + servoMod * value.coerceIn(0.0, 1.0)
+            servo.position = servoStart + servoMod * value.toDouble().coerceIn(0.0, 1.0)
             telemetry?.addData("Intake position", servo.position)
         }
 

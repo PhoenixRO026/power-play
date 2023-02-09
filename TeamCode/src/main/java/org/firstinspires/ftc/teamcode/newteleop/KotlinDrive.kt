@@ -18,7 +18,20 @@ class KotlinDrive : LinearOpMode() {
         waitForStart()
 
         while (!this.isStopRequested && this.isStarted) {
-            robot.intake.position = 1.0
+            robot.update()
+            robot.intake.position = gamepad1.right_trigger
+            robot.drive.driveFieldCentric(
+                gamepad1.left_stick_x,
+                gamepad1.left_stick_y,
+                gamepad1.right_stick_x
+            )
+            robot.lift.power = if (gamepad1.right_bumper)
+                1
+            else if (gamepad1.left_bumper)
+                -1
+            else
+                0
+            telemetry.update()
         }
     }
 }
