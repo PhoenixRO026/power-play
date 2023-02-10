@@ -20,12 +20,18 @@ class Drive(hardwareMap: HardwareMap) {
 
     init {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
+        drive.poseEstimate
     }
 
     fun update() = drive.update()
 
-    private fun driveRobotCentric(drivePower: Pose2d) = drive.setWeightedDrivePower(drivePower.times(speed))
-    private fun driveFieldCentric(drivePower: Pose2d) = driveRobotCentric(Pose2d(drivePower.vec().rotated(heading), drivePower.heading))
+    fun resetFieldCentric() {
+        drive.poseEstimate = Pose2d(drive.poseEstimate.vec(), 0.0)
+    }
+
+    private fun driveRobotCentric(drivePower: Pose2d) = drive.setWeightedDrivePower(Pose2d(drivePower.vec().rotated(Math.toRadians(-90.0)), -drivePower.heading).times(speed))
+    fun driveRobotCentric(x: Number, y: Number, rotation: Number) = driveRobotCentric(Pose2d(x.toDouble(), y.toDouble(), rotation.toDouble()))
+    private fun driveFieldCentric(drivePower: Pose2d) = driveRobotCentric(Pose2d(drivePower.vec().rotated(-heading), drivePower.heading))
     private fun driveFieldCentric(x: Double, y: Double, rotation: Double) = driveFieldCentric(Pose2d(x, y, rotation))
     fun driveFieldCentric(x: Number, y: Number, rotation: Number) = driveFieldCentric(x.toDouble(), y.toDouble(), rotation.toDouble())
 }

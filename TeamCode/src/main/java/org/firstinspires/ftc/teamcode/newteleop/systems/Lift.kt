@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import kotlin.math.abs
 import kotlin.math.sign
 
 class Lift(
@@ -14,7 +15,7 @@ class Lift(
     private val motor = hardwareMap.get(DcMotorEx::class.java, "lift")
     private val liftBottom = 50
     private val liftTop = 4080
-    private val holdPower = 0.5
+    private val holdPower = 0.1
     private enum class LiftState {
         ADVANCING,
         BRAKING,
@@ -36,7 +37,6 @@ class Lift(
                 }
             }
             motor.power = clampedVal
-            telemetry?.addData("Lift power", clampedVal)
             field = clampedVal
         }
     var limitsDisabled = false
@@ -46,6 +46,7 @@ class Lift(
             if (value) {
                 motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
                 state = LiftState.NO_PID
+                motor.power = power.toDouble()
             } else {
                 state = LiftState.BRAKING
                 motor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
@@ -66,16 +67,18 @@ class Lift(
     }
 
     fun update() {
-        if (motor.power == 0.0 && motor.velocity <= minBrakeVelocity) {
+        if (motor.mode == DcMotor.RunMode.RUN_TO_POSITION && motor.power == 0.0 && abs(motor.velocity) <= minBrakeVelocity) {
             state = LiftState.HOLDING
             motor.targetPosition = motor.currentPosition
             motor.power = holdPower
         }
+        telemetry?.addData("Lift power", power.toDouble())
         telemetry?.addData("Lift position", motor.currentPosition)
         telemetry?.addData("Lift target position", motor.targetPosition)
         telemetry?.addData("Lift velocity", motor.velocity)
         telemetry?.addData("Lift state", state)
         telemetry?.addData("Lift mode", motor.mode)
         telemetry?.addData("Lift motor power", motor.power)
+        telemetry?.addData("Limits enabled", !limitsDisabled)
     }
 }

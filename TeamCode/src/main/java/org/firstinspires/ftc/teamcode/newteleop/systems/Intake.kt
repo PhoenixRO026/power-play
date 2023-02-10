@@ -10,7 +10,7 @@ class Intake(
 ) {
     private val servo: Servo = hardwareMap.get(Servo::class.java, "intake")
     private val servoStart = 0.29
-    private val servoEnd = 0.04
+    private val servoEnd = 0.06
     private var servoMod = servoEnd - servoStart
     var position : Number = 0.0
         set(value) {
@@ -19,12 +19,15 @@ class Intake(
                 return
             val newPos = servoStart + servoMod * clampedValue
             servo.position = newPos
-            field = newPos
-            telemetry?.addData("Intake position", newPos)
-            telemetry?.addData("Intake true position", servo.position)
+            field = clampedValue
         }
 
     init {
-        position = servoStart
+        position = 0
+    }
+
+    fun update() {
+        telemetry?.addData("Intake position", position)
+        telemetry?.addData("Intake true position", servo.position)
     }
 }

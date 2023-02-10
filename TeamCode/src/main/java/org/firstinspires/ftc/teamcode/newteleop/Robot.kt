@@ -23,5 +23,6 @@ class Robot @JvmOverloads constructor(
         oldTime = newTime
         drive.update()
         lift.update()
+        intake.update()
     }
 }

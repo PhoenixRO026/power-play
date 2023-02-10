@@ -8,10 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Disabled
-@TeleOp
+@TeleOp(name = "New Drive")
 public class JavaDrive extends LinearOpMode {
     Robot robot;
     ButtonReader liftLimitButton;
+    ButtonReader resetHeadingButton;
+    Boolean dpadUsed;
 
     @Override
     public void runOpMode() throws InterruptedException {
