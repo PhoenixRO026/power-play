@@ -13,8 +13,8 @@ class Lift(
     private val telemetry: Telemetry? = null
 ) {
     private val motor = hardwareMap.get(DcMotorEx::class.java, "lift")
-    private val liftBottom = 50
-    private val liftTop = 4080
+    private val liftBottom = 0
+    private val liftTop = 2860
     private val holdPower = 0.1
     private enum class LiftState {
         ADVANCING,

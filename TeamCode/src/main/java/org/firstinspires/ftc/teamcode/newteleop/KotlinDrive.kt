@@ -19,7 +19,7 @@ class KotlinDrive : LinearOpMode() {
         robot = Robot(hardwareMap, telemetry)
         liftLimitButton = ButtonReader { gamepad1.x || gamepad2.x }
         resetHeadingButton = ButtonReader { gamepad1.b }
-        dpadUsed = ButtonReader { gamepad1.dpad_up || gamepad1.dpad_up || gamepad1.dpad_left || gamepad1.dpad_right }
+        dpadUsed = ButtonReader { gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right }
 
         waitForStart()
 
