@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.newteleop;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -57,8 +56,8 @@ public class JavaDrive extends LinearOpMode {
                 gamepad2.rumble(1.0, 1.0, 300);
             }
 
-            if (gamepad1.right_bumper) robot.lift.setPower(1);
-            else if (gamepad1.left_bumper) robot.lift.setPower(-1);
+            if (gamepad1.right_bumper || gamepad2.y) robot.lift.setPower(1);
+            else if (gamepad1.left_bumper || gamepad2.a) robot.lift.setPower(-1);
             else robot.lift.setPower(0);
 
             telemetry.update();
