@@ -41,7 +41,7 @@ public final class LogFiles {
     public static LogFile log = new LogFile("uninitialized");
 
     public static class LogFile {
-        public String version = "quickstart1 v1";
+        public String version = "quickstart1 v2";
 
         public String opModeName;
         public long msInit = System.currentTimeMillis();
@@ -202,6 +202,9 @@ public final class LogFiles {
             log.nsStop = System.nanoTime();
 
             if (!(opMode instanceof OpModeManagerImpl.DefaultOpMode)) {
+                //noinspection ResultOfMethodCallIgnored
+                ROOT.mkdirs();
+
                 String filename = dateFormat.format(new Date(log.msInit)) + "__" + opMode.getClass().getSimpleName() + ".json";
                 File file = new File(ROOT, filename);
                 try {
