@@ -1,9 +1,11 @@
 package CursProgramare
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotorEx
 
+@Disabled
 @TeleOp(name = "Kotlin Test")
 class KotlinMotorTest: LinearOpMode() {
     override fun runOpMode() {

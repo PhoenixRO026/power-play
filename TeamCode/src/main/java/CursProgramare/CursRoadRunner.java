@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -15,8 +16,8 @@ import org.firstinspires.ftc.teamcode.auto.Lift;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.teleop.SimpleDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.opencv.core.Mat;
 
+@Disabled
 @Autonomous(name = "Curs RoadRunner")
 public class CursRoadRunner extends LinearOpMode {
     SampleMecanumDrive drive;
@@ -36,9 +37,7 @@ public class CursRoadRunner extends LinearOpMode {
 
         trajectorySequence = drive.trajectorySequenceBuilder(start)
                 .setTangent(Math.toRadians(10))
-                .addTemporalMarker(() -> {
-                    liftPos = 820;
-                })
+                .addTemporalMarker(() -> liftPos = 820)
                 .splineToConstantHeading(new Vector2d(-10.2, -46.56), Math.toRadians(90))
                 .splineTo(new Vector2d(-10, -20), Math.toRadians(90))
                 .splineTo(
@@ -47,9 +46,7 @@ public class CursRoadRunner extends LinearOpMode {
                         SampleMecanumDrive.getVelocityConstraint(MAX_VEL / 2, MAX_ANG_VEL, TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(MAX_ACCEL)
                 )
-                .addTemporalMarker(() -> {
-                    intakePos = SimpleDrive.intakeEnd;
-                })
+                .addTemporalMarker(() -> intakePos = SimpleDrive.intakeEnd)
                 .waitSeconds(1)
                 .back(10)
                 .build();

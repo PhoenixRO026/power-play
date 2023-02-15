@@ -9,6 +9,7 @@ import static com.example.constants.Constants.ROBOT_WIDTH;
 import static com.example.constants.Constants.TRACK_WIDTH;
 import static com.example.constants.Constants.flipPose;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.example.constants.Constants;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
@@ -26,6 +27,17 @@ public class MeepMeepTesting {
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
         MeepMeep meepMeep = new MeepMeep(650);
+
+        double field = 141.1;
+
+        RoadRunnerBotEntity myBot3 = new DefaultBotBuilder(meepMeep)
+                .setDimensions(14.1, 14.1)
+                .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
+                .setColorScheme(new ColorSchemeRedDark())
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
+                                .build()
+                );
 
         RoadRunnerBotEntity myBot1 = new DefaultBotBuilder(meepMeep)
                 .setDimensions(ROBOT_WIDTH, ROBOT_LENGTH)

@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode.newteleop
 import com.acmerobotics.dashboard.FtcDashboard
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.arcrobotics.ftclib.gamepad.ButtonReader
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import kotlin.math.max
 
+@Disabled
 @TeleOp
 class KotlinDrive : LinearOpMode() {
     private lateinit var robot: Robot

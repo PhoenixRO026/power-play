@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.newteleop.systems.Drive
 import org.firstinspires.ftc.teamcode.newteleop.systems.Intake
+import org.firstinspires.ftc.teamcode.newteleop.systems.Intake2
 import org.firstinspires.ftc.teamcode.newteleop.systems.Lift
 
 class Robot @JvmOverloads constructor(
@@ -13,6 +14,7 @@ class Robot @JvmOverloads constructor(
     @JvmField val intake = Intake(hardwareMap, telemetry)
     @JvmField val drive = Drive(hardwareMap)
     @JvmField val lift = Lift(hardwareMap, telemetry)
+    @JvmField val intake2 = Intake2(hardwareMap, telemetry)
 
     private var oldTime = System.currentTimeMillis()
     private var newTime = System.currentTimeMillis()
@@ -24,5 +26,6 @@ class Robot @JvmOverloads constructor(
         drive.update()
         lift.update()
         intake.update()
+        intake2.update()
     }
 }

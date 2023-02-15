@@ -55,7 +55,7 @@ SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(6, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(6, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = 1.148813598875224;
+    public static double LATERAL_MULTIPLIER = 1.003431372549021;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -307,5 +307,9 @@ SampleMecanumDrive extends MecanumDrive {
 
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);
+    }
+
+    public void breakFollowing() {
+        trajectorySequenceRunner.breakFollowing();
     }
 }
