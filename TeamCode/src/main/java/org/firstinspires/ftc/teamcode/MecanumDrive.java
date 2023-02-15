@@ -84,6 +84,8 @@ public final class MecanumDrive {
             IN_PER_TICK * TRACK_WIDTH_TICKS,
             IN_PER_TICK / LATERAL_IN_PER_TICK);
 
+    public final MecanumKinematics teleopKinematics = new MecanumKinematics(1, 1);
+
     public final MotorFeedforward feedforward = new MotorFeedforward(kS, kV, kA);
 
     public final TurnConstraints defaultTurnConstraints = new TurnConstraints(
@@ -204,6 +206,25 @@ public final class MecanumDrive {
         leftBack.setPower(wheelVels.leftBack.get(0));
         rightBack.setPower(wheelVels.rightBack.get(0));
         rightFront.setPower(wheelVels.rightFront.get(0));
+    }
+
+    public void setTeleopDrivePowers(Twist2d powers) {
+        MecanumKinematics.WheelVelocities<Time> wheelVels = teleopKinematics.inverse(Twist2dDual.constant(normalize(powers), 1));
+        leftFront.setPower(wheelVels.leftFront.get(0));
+        leftBack.setPower(wheelVels.leftBack.get(0));
+        rightBack.setPower(wheelVels.rightBack.get(0));
+        rightFront.setPower(wheelVels.rightFront.get(0));
+    }
+
+    private Twist2d normalize(Twist2d twist2d) {
+        double sum = Math.abs(twist2d.transVel.x) + Math.abs(twist2d.transVel.y) + Math.abs(twist2d.rotVel);
+        if (sum > 1) {
+            twist2d = new Twist2d(
+                    new Vector2d(twist2d.transVel.x, twist2d.transVel.y).div(sum),
+                    twist2d.rotVel / sum
+            );
+        }
+        return twist2d;
     }
 
     public final class FollowTrajectoryAction implements Action {

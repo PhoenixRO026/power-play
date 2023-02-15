@@ -84,7 +84,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                         startTs = System.nanoTime() / 1e9;
                     }
 
-                    view.setDrivePowers(
+                    view.setTeleOpPowers(
                             new Twist2d(
                                     new Vector2d(
                                             -gamepad1.left_stick_y,

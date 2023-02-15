@@ -169,4 +169,9 @@ final class DriveView {
 
         throw new AssertionError();
     }
+
+    public void setTeleOpPowers(Twist2d powers) {
+        if (md != null)
+            md.setTeleopDrivePowers(powers);
+    }
 }
