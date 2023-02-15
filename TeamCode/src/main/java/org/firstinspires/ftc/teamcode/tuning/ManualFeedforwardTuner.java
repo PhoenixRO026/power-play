@@ -73,6 +73,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     telemetry.addData("aref", v.get(1));
 
                     double power = view.feedforward().compute(v) / view.voltageSensor.getVoltage();
+                    telemetry.addData("power", power * view.maxVel);
                     view.setDrivePowers(new Twist2d(new Vector2d(power, 0), 0));
 
                     break;
@@ -97,6 +98,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     break;
                 }
             }
+
+            telemetry.addData("right_stick_x", gamepad1.right_stick_x);
 
             telemetry.update();
         }

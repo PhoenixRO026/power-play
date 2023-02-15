@@ -55,12 +55,12 @@ public final class MecanumDrive {
     public static double TRACK_WIDTH_TICKS = 528.7389022327984;
 
     // feedforward parameters
-    public static double kS = 0;
-    public static double kV = 0.22;
-    public static double kA = 0.03;
+    public static double kS = 0.1;
+    public static double kV = 0.21;
+    public static double kA = 0.04;
     public static double kdecelS = 0;
-    public static double kdecelV = 0.09;
-    public static double kdecelA = 0.03;
+    public static double kdecelV = 0.105;
+    public static double kdecelA = 0;
 
     // path profile parameters
     public static double MAX_WHEEL_VEL = 40;
@@ -181,10 +181,10 @@ public final class MecanumDrive {
         rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
