@@ -1,38 +1,9 @@
 package org.firstinspires.ftc.teamcode.newauto;
 
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.highLiftUpOffset;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.highPose;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.highPoseTurn;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.intake2UpStartWait;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midIntake2DownWait;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midIntakeOpenWait;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midLeaveWait;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midLiftUpOffset;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midPose;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose1;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose1Turn;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose2;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose2Turn;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose3;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose3Turn;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose4;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose4Turn;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackIntakeCloseWait;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackLeaveWait;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackLiftUpWait;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackPose;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.startPose;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.aboveStackPos;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.coneStackDifMM;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.fieldSize;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.highPos;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.intake2Down;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.intake2Up;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.intakeClose;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.intakeOpen;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.midPos;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.stackPos;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.toTicks;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.*;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.*;
+import static com.example.constants.Constants.MAX_ANG_VEL;
+import static com.example.constants.Constants.TRACK_WIDTH;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -84,14 +55,17 @@ public class Cycle3Left extends LinearOpMode {
 
         TrajectorySequenceBuilder base = drive.trajectorySequenceBuilder(startPose.reversed().pose2d())
                 .addTemporalMarker(() -> intakePos = intakeClose)
-                //.addTemporalMarker(intake2UpStartWait, () -> intake2Pos = intake2Up)
-                .splineTo(pose1.reversed().pose2d().vec(), pose1.reversed().pose2d().getHeading())
+                .addTemporalMarker(liftUpStartWait, () -> liftPos = aboveStackPos)
+                .splineTo(
+                        pose1.reversed().pose2d().vec(),
+                        pose1.reversed().pose2d().getHeading(),
+                        SampleMecanumDrive.getVelocityConstraint(startSpeed, MAX_ANG_VEL, TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(startSpeed)
+                )
                 .turn(-pose1Turn)
+                .addTemporalMarker(() -> intake2Pos = intake2Up)
                 .splineTo(midPose.reversed().pose2d().vec(), midPose.reversed().pose2d().getHeading())
-                .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> {
-                    liftPos = midPos;
-                    intake2Pos = intake2Up;
-                })
+                .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = midPos)
                 .waitSeconds(midIntake2DownWait)
                 .addTemporalMarker(() -> intake2Pos = intake2Down)
                 .waitSeconds(midIntakeOpenWait)

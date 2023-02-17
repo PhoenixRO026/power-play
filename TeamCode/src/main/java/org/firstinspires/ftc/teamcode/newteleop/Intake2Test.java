@@ -27,9 +27,11 @@ public class Intake2Test extends LinearOpMode {
             intake2.setPosition(intake2pos);*/
 
             if (gamepad1.y)
-                intake2pos += 0.001;
+                intake2pos += 0.0001;
             else if (gamepad1.a)
                 intake2pos -= 0.0001;
+
+            intake2pos = Math.min(Math.max(0.0, intake2pos), 1.0);
 
             intake2.setPosition(intake2pos);
 

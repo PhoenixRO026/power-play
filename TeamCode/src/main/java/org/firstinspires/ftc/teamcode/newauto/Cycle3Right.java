@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.newauto;
 
+import static com.example.constants.Constants.MAX_ANG_VEL;
+import static com.example.constants.Constants.TRACK_WIDTH;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -53,14 +56,17 @@ public class Cycle3Right extends LinearOpMode {
 
         TrajectorySequenceBuilder base = drive.trajectorySequenceBuilder(startPose.pose2d())
                 .addTemporalMarker(() -> intakePos = intakeClose)
-                //.addTemporalMarker(intake2UpStartWait, () -> intake2Pos = intake2Up)
-                .splineTo(pose1.pose2d().vec(), pose1.pose2d().getHeading())
+                .addTemporalMarker(liftUpStartWait, () -> liftPos = aboveStackPos)
+                .splineTo(
+                        pose1.pose2d().vec(),
+                        pose1.pose2d().getHeading(),
+                        SampleMecanumDrive.getVelocityConstraint(startSpeed, MAX_ANG_VEL, TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(startSpeed)
+                )
                 .turn(pose1Turn)
+                .addTemporalMarker(() -> intake2Pos = intake2Up)
                 .splineTo(midPose.pose2d().vec(), midPose.pose2d().getHeading())
-                .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> {
-                    liftPos = midPos;
-                    intake2Pos = intake2Up;
-                })
+                .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = midPos)
                 .waitSeconds(midIntake2DownWait)
                 .addTemporalMarker(() -> intake2Pos = intake2Down)
                 .waitSeconds(midIntakeOpenWait)

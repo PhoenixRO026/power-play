@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode.newauto;
+package com.example.meepmeeptesting;
 
-import static org.firstinspires.ftc.teamcode.newauto.Consts.*;
 
-import com.acmerobotics.dashboard.config.Config;
+import static com.example.meepmeeptesting.Consts.driveTrainLenght;
+import static com.example.meepmeeptesting.Consts.fieldSize;
 
-@Config
 public class AutoPoses {
     public static ConfigPose startPose = new ConfigPose(
             fieldSize / 4,
@@ -29,9 +28,9 @@ public class AutoPoses {
     ).offset(0, -driveTrainLenght / 2 - 3);
 
     public static double midLiftUpOffset = -2;
-    public static double midIntake2DownWait = 0.5;
-    public static double midIntakeOpenWait = 0.2;
-    public static double midLeaveWait = 0.2;
+    public static double midIntake2DownWait = 0.1;
+    public static double midIntakeOpenWait = 0.1;
+    public static double midLeaveWait = 0.1;
 
     public static ConfigPose highPose = new ConfigPose(
             fieldSize / 6,
@@ -56,9 +55,9 @@ public class AutoPoses {
             Math.toRadians(0)
     );
 
-    public static double stackIntakeCloseWait = 0.2;
-    public static double stackLiftUpWait = 0.4;
-    public static double stackLeaveWait = 0.4;
+    public static double stackIntakeCloseWait = 0.1;
+    public static double stackLiftUpWait = 0.1;
+    public static double stackLeaveWait = 0.1;
 
     public static  ConfigPose pose3 = new ConfigPose(
             fieldSize / 4,

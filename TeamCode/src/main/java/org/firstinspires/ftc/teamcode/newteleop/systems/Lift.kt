@@ -14,7 +14,7 @@ class Lift(
 ) {
     private val motor = hardwareMap.get(DcMotorEx::class.java, "lift")
     private val liftBottom = 0
-    private val liftTop = 2860
+    private val liftTop = 2500
     private val holdPower = 0.1
     private enum class LiftState {
         ADVANCING,

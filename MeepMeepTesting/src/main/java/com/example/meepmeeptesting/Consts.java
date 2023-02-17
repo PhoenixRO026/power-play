@@ -1,8 +1,5 @@
-package org.firstinspires.ftc.teamcode.newauto;
+package com.example.meepmeeptesting;
 
-import com.acmerobotics.dashboard.config.Config;
-
-@Config
 public class Consts {
     public static double fieldSize = 141.1;
     public static double driveTrainLenght = 14.1;

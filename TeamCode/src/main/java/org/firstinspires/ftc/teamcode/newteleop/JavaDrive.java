@@ -67,9 +67,11 @@ public class JavaDrive extends LinearOpMode {
             else if (gamepad1.left_bumper || gamepad2.a) robot.lift.setPower(-1);
             else robot.lift.setPower(0);
 
-            if (intake2Up.getState())
-                robot.intake2.setPosition(1);
+            if (intake2Up.getState()) robot.intake2.setPosition(1);
             else robot.intake2.setPosition(gamepad2.left_trigger);
+
+            /*if (gamepad2.dpad_up) robot.intake2.increaseOffset();
+            else if (gamepad2.dpad_down) robot.intake2.decreaseOffset();*/
 
             telemetry.update();
         }
