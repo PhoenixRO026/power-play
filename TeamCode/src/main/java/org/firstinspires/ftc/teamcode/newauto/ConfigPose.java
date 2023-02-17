@@ -27,7 +27,22 @@ public class ConfigPose {
         return this;
     }
 
+    private ConfigPose setOffset(double xOffset, double yOffset) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+        return this;
+    }
+
     public Pose2d pose2d() {
         return new Pose2d(x + xOffset, y + yOffset, heading);
+    }
+
+    public ConfigPose reversed() {
+        return new ConfigPose(-x, y, flipHeadingRad(heading)).setOffset(-xOffset, yOffset);
+    }
+
+    public static double flipHeadingRad(double heading) {
+        double headingDeg = Math.toDegrees(heading) % 360;
+        return Math.toRadians((540 - headingDeg) % 360);
     }
 }

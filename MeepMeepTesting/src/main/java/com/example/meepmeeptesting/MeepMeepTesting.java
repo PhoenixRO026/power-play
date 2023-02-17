@@ -13,7 +13,7 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
-        meep2();
+        meep();
     }
 
     public static void meep2() {

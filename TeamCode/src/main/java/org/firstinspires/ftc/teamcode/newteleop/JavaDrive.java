@@ -26,6 +26,9 @@ public class JavaDrive extends LinearOpMode {
 
         waitForStart();
 
+        robot.intake.setPosition(0);
+        robot.intake2.setPosition(0);
+
         while (!this.isStopRequested() && this.isStarted()) {
             robot.update();
             liftLimitButton.readValue();

@@ -9,7 +9,7 @@ class Intake(
     private val telemetry: Telemetry? = null
 ) {
     private val servo: Servo = hardwareMap.get(Servo::class.java, "intake")
-    private val servoStart = 0.29
+    private val servoStart = 0.30
     private val servoEnd = 0.06
     private var servoMod = servoEnd - servoStart
     var position : Number = 0.0

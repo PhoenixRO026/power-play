@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.teleop.SimpleDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Config
-@Autonomous(name = "Auto Left")
+@Autonomous(name = "Cycle3Right Left")
 public class AutoLeft extends LinearOpMode {
     AutoDrive drive;
     Pose2d initPose = new Pose2d(-36, -64.9, Math.toRadians(90));

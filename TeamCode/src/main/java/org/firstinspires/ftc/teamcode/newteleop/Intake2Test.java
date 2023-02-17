@@ -12,7 +12,7 @@ public class Intake2Test extends LinearOpMode {
     double intakeDown = 0.08;
     double intakeUp = 0.3;
     double intakeDif = intakeUp - intakeDown;
-    double intake2pos = intakeDown;
+    double intake2pos = intakeUp;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,7 +23,14 @@ public class Intake2Test extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            intake2pos = intakeDown + intakeDif * gamepad1.left_trigger;
+            /*intake2pos = intakeDown + intakeDif * gamepad1.left_trigger;
+            intake2.setPosition(intake2pos);*/
+
+            if (gamepad1.y)
+                intake2pos += 0.001;
+            else if (gamepad1.a)
+                intake2pos -= 0.0001;
+
             intake2.setPosition(intake2pos);
 
             telemetry.addData("Intake 2 pos", intake2pos);
