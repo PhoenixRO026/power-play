@@ -10,15 +10,17 @@ public class Consts {
     public static double intakeClose = 0.30;
     public static double intakeOpen = 0.06;
 
-    public static double intake2Down = 0.09;
-    public static double intake2Up = 0.288;
+    public static double intake2Down = 0.615;
+
+    private static final double intake2Diff = 0.2;
+    public static double intake2Up = intake2Down + intake2Diff;
 
     public static double startSpeed = 50;
 
     public static int midPos = 1495;
     public static int highPos = 2355;
     public static int stackPos = 410;
-    public static int aboveStackPos = 720;
+    public static int aboveStackPos = 770;
 
     public static double coneStackDifMM = 29.05;
 

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.newauto;
 
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.*;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.*;
 import static com.example.constants.Constants.MAX_ANG_VEL;
 import static com.example.constants.Constants.TRACK_WIDTH;
 
@@ -12,9 +14,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import static org.firstinspires.ftc.teamcode.newauto.Consts.*;
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.*;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -38,6 +37,13 @@ public class Cycle3Right extends LinearOpMode {
     public double intake2Pos = intake2Down;
     public double lastIntake2Pos = intake2Down;
 
+    public STATE state = STATE.DRIVE;
+
+    public enum STATE {
+        DRIVE,
+        PARK
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -54,7 +60,7 @@ public class Cycle3Right extends LinearOpMode {
         lift.setPower(1);
         detect = new Detect(hardwareMap);
 
-        TrajectorySequenceBuilder base = drive.trajectorySequenceBuilder(startPose.pose2d())
+        TrajectorySequence base = drive.trajectorySequenceBuilder(startPose.pose2d())
                 .addTemporalMarker(() -> intakePos = intakeClose)
                 .addTemporalMarker(liftUpStartWait, () -> liftPos = aboveStackPos)
                 .splineTo(
@@ -64,7 +70,7 @@ public class Cycle3Right extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(startSpeed)
                 )
                 .turn(pose1Turn)
-                .addTemporalMarker(() -> intake2Pos = intake2Up)
+                .UNSTABLE_addTemporalMarkerOffset(pose1TurnIntake2UpOffset, () -> intake2Pos = intake2Up)
                 .splineTo(midPose.pose2d().vec(), midPose.pose2d().getHeading())
                 .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = midPos)
                 .waitSeconds(midIntake2DownWait)
@@ -72,12 +78,12 @@ public class Cycle3Right extends LinearOpMode {
                 .waitSeconds(midIntakeOpenWait)
                 .addTemporalMarker(() -> intakePos = intakeOpen)
                 .waitSeconds(midLeaveWait)
-                .addTemporalMarker(() -> liftPos = stackPos)
                 .setReversed(true)
                 .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
                 .setReversed(false)
                 .turn(pose2Turn)
                 .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
+                .UNSTABLE_addDisplacementMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos)
                 .waitSeconds(stackIntakeCloseWait)
                 .addTemporalMarker(() -> intakePos = intakeClose)
                 .waitSeconds(stackLiftUpWait)
@@ -97,12 +103,12 @@ public class Cycle3Right extends LinearOpMode {
                 .waitSeconds(midIntakeOpenWait)
                 .addTemporalMarker(() -> intakePos = intakeOpen)
                 .waitSeconds(midLeaveWait)
-                .addTemporalMarker(() -> liftPos = stackPos - toTicks(coneStackDifMM))
                 .setReversed(true)
                 .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
                 .setReversed(false)
                 .turn(pose2Turn)
                 .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
+                .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos - toTicks(coneStackDifMM))
                 .waitSeconds(stackIntakeCloseWait)
                 .addTemporalMarker(() -> intakePos = intakeClose)
                 .waitSeconds(stackLiftUpWait)
@@ -122,15 +128,21 @@ public class Cycle3Right extends LinearOpMode {
                 .waitSeconds(midIntakeOpenWait)
                 .addTemporalMarker(() -> intakePos = intakeOpen)
                 .waitSeconds(midLeaveWait)
-                .addTemporalMarker(() -> liftPos = 0)
-                .setReversed(true)
-                .splineTo(pose4.pose2d().vec(), pose4.pose2d().getHeading())
-                .setReversed(false)
-                .turn(pose4Turn);
+                .UNSTABLE_addTemporalMarkerOffset(pose4LiftOffsetWait, () -> liftPos = 0)
+                .lineToConstantHeading(pose4.pose2d().vec())
+                .turn(pose4Turn)
+                .build();
 
-        TrajectorySequence case13 = base.strafeLeft(fieldSize / 6).build();
+        TrajectorySequence case13 = drive.trajectorySequenceBuilder(pose5.pose2d())
+                .strafeLeft(fieldSize / 6)
+                .build();
+        TrajectorySequence case15 = drive.trajectorySequenceBuilder(pose5.pose2d())
+                .strafeRight(fieldSize / 6)
+                .build();
+
+        /*TrajectorySequence case13 = base.strafeLeft(fieldSize / 6).build();
         TrajectorySequence case14 = base.build();
-        TrajectorySequence case15 = base.strafeRight(fieldSize / 6).build();
+        TrajectorySequence case15 = base.strafeRight(fieldSize / 6).build+();*/
 
         intake.setPosition(intakePos);
         intake2.setPosition(intake2Pos);
@@ -144,19 +156,27 @@ public class Cycle3Right extends LinearOpMode {
             sleep(20);
         }
 
-        switch (result) {
-            case 13:
-                drive.followTrajectorySequenceAsync(case13);
-                break;
-            case 14:
-                drive.followTrajectorySequenceAsync(case14);
-                break;
-            default:
-                drive.followTrajectorySequenceAsync(case15);
-        }
+        drive.followTrajectorySequenceAsync(base);
 
         while (!isStopRequested() && isStarted()) {
             drive.update();
+            switch (state) {
+                case DRIVE:
+                    if (!drive.isBusy()) {
+                        switch (result) {
+                            case 13:
+                                drive.followTrajectorySequenceAsync(case13);
+                                break;
+                            case 15:
+                                drive.followTrajectorySequenceAsync(case15);
+                                break;
+                            default:
+                        }
+                        state = STATE.PARK;
+                    }
+                    break;
+                case PARK:
+            }
             if (liftPos != lastLiftPos) {
                 lift.setTargetPosition(liftPos);
                 lastLiftPos = liftPos;

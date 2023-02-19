@@ -31,13 +31,16 @@ class Intake2(
     fun update() {
         telemetry?.addData("Intake 2 position", position)
         telemetry?.addData("Intake 2 true position", servo.position)
+        telemetry?.addData("Intake 2 offset", offset)
     }
 
     fun increaseOffset() {
-        offset += 0.0003
+        offset += 0.001
+        servo.position = servoStart + servoMod * position.toDouble() + offset
     }
 
     fun decreaseOffset() {
-        offset -= 0.0003
+        offset -= 0.001
+        servo.position = servoStart + servoMod * position.toDouble() + offset
     }
 }

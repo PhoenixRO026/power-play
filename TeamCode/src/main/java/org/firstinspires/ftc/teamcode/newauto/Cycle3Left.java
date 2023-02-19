@@ -41,7 +41,7 @@ public class Cycle3Left extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         drive = new SampleMecanumDrive(hardwareMap);
-        drive.setPoseEstimate(startPose.pose2d());
+        drive.setPoseEstimate(startPose.reversed().pose2d());
         intake = hardwareMap.get(Servo.class, "intake");
         intake2 = hardwareMap.get(Servo.class, "intake2");
         lift = hardwareMap.get(DcMotorEx.class, "lift");
@@ -58,9 +58,9 @@ public class Cycle3Left extends LinearOpMode {
                 .addTemporalMarker(liftUpStartWait, () -> liftPos = aboveStackPos)
                 .splineTo(
                         pose1.reversed().pose2d().vec(),
-                        pose1.reversed().pose2d().getHeading(),
+                        pose1.reversed().pose2d().getHeading()/*,
                         SampleMecanumDrive.getVelocityConstraint(startSpeed, MAX_ANG_VEL, TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(startSpeed)
+                        SampleMecanumDrive.getAccelerationConstraint(startSpeed)*/
                 )
                 .turn(-pose1Turn)
                 .addTemporalMarker(() -> intake2Pos = intake2Up)
@@ -71,7 +71,7 @@ public class Cycle3Left extends LinearOpMode {
                 .waitSeconds(midIntakeOpenWait)
                 .addTemporalMarker(() -> intakePos = intakeOpen)
                 .waitSeconds(midLeaveWait)
-                .addTemporalMarker(() -> liftPos = stackPos)
+                .UNSTABLE_addDisplacementMarkerOffset(pose4LiftOffsetWait, () -> liftPos = stackPos)
                 .setReversed(true)
                 .splineTo(pose2.reversed().pose2d().vec(), pose2.reversed().pose2d().getHeading())
                 .setReversed(false)
@@ -96,7 +96,7 @@ public class Cycle3Left extends LinearOpMode {
                 .waitSeconds(midIntakeOpenWait)
                 .addTemporalMarker(() -> intakePos = intakeOpen)
                 .waitSeconds(midLeaveWait)
-                .addTemporalMarker(() -> liftPos = stackPos - toTicks(coneStackDifMM))
+                .UNSTABLE_addDisplacementMarkerOffset(pose4LiftOffsetWait, () -> liftPos = stackPos - toTicks(coneStackDifMM))
                 .setReversed(true)
                 .splineTo(pose2.reversed().pose2d().vec(), pose2.reversed().pose2d().getHeading())
                 .setReversed(false)
@@ -121,7 +121,7 @@ public class Cycle3Left extends LinearOpMode {
                 .waitSeconds(midIntakeOpenWait)
                 .addTemporalMarker(() -> intakePos = intakeOpen)
                 .waitSeconds(midLeaveWait)
-                .addTemporalMarker(() -> liftPos = 0)
+                .UNSTABLE_addTemporalMarkerOffset(pose4LiftOffsetWait, () -> liftPos = 0)
                 .setReversed(true)
                 .splineTo(pose4.reversed().pose2d().vec(), pose4.reversed().pose2d().getHeading())
                 .setReversed(false)

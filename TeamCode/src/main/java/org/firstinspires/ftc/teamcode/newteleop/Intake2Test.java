@@ -6,13 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.newauto.Consts;
+
 @TeleOp
 public class Intake2Test extends LinearOpMode {
     Servo intake2;
     double intakeDown = 0.08;
-    double intakeUp = 0.3;
+    double intakeUp = 0.8;
     double intakeDif = intakeUp - intakeDown;
-    double intake2pos = intakeUp;
+    double intake2pos = Consts.intake2Down;
 
     @Override
     public void runOpMode() throws InterruptedException {

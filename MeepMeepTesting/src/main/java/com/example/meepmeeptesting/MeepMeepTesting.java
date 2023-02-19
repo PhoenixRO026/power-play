@@ -1,7 +1,9 @@
 package com.example.meepmeeptesting;
 
+import static com.example.constants.Constants.MAX_ACCEL;
 import static com.example.constants.Constants.MAX_ANG_ACCEL;
 import static com.example.constants.Constants.MAX_ANG_VEL;
+import static com.example.constants.Constants.MAX_VEL;
 import static com.example.constants.Constants.TRACK_WIDTH;
 import static com.example.meepmeeptesting.AutoPoses.*;
 import static com.example.meepmeeptesting.Consts.*;
@@ -22,109 +24,82 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity bot = new DefaultBotBuilder(meepMeep)
             .setDimensions(driveTrainLenght, driveTrainLenght)
-            .setConstraints(50, 50, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
+            .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
             .setColorScheme(new ColorSchemeRedDark())
             .followTrajectorySequence(drive ->
-                drive.trajectorySequenceBuilder(startPose.pose2d())
-                    //.addTemporalMarker(() -> intakePos = intakeClose)
-                    //.addTemporalMarker(liftUpStartWait, () -> liftPos = aboveStackPos)
-                    .splineTo(
-                        pose1.pose2d().vec(),
-                        pose1.pose2d().getHeading(),
-                        SampleMecanumDrive.getVelocityConstraint(startSpeed, MAX_ANG_VEL, TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(startSpeed)
-                    )
-                    .turn(pose1Turn)
-                    //.addTemporalMarker(() -> intake2Pos = intake2Up)
-                    .splineTo(midPose.pose2d().vec(), midPose.pose2d().getHeading())
-                    //.UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = midPos)
-                    .waitSeconds(midIntake2DownWait)
-                    //.addTemporalMarker(() -> intake2Pos = intake2Down)
-                    .waitSeconds(midIntakeOpenWait)
-                    //.addTemporalMarker(() -> intakePos = intakeOpen)
-                    .waitSeconds(midLeaveWait)
-                    //.addTemporalMarker(() -> liftPos = stackPos)
-                    .setReversed(true)
-                    .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
-                    .setReversed(false)
-                    .turn(pose2Turn)
-                    .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
-                    //.waitSeconds(stackIntakeCloseWait)
-                    //.addTemporalMarker(() -> intakePos = intakeClose)
-                    .waitSeconds(stackLiftUpWait)
-                    //.addTemporalMarker(() -> liftPos = aboveStackPos)
-                    .waitSeconds(stackLeaveWait)
-                    .setReversed(true)
-                    .splineTo(pose3.pose2d().vec(), pose3.pose2d().getHeading())
-                    .setReversed(false)
-                    .turn(pose3Turn)
-                    .splineTo(midPose.pose2d().vec(), midPose.pose2d().getHeading())
-                    /*.UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> {
-                        liftPos = midPos;
-                        intake2Pos = intake2Up;
-                    })*/
-                    .waitSeconds(midIntake2DownWait)
-                    //.addTemporalMarker(() -> intake2Pos = intake2Down)
-                    .waitSeconds(midIntakeOpenWait)
-                    //.addTemporalMarker(() -> intakePos = intakeOpen)
-                    .waitSeconds(midLeaveWait)
-                    //.addTemporalMarker(() -> liftPos = stackPos - toTicks(coneStackDifMM))
-                    .setReversed(true)
-                    .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
-                    .setReversed(false)
-                    .turn(pose2Turn)
-                    .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
-                    //.waitSeconds(stackIntakeCloseWait)
-                    //.addTemporalMarker(() -> intakePos = intakeClose)
-                    .waitSeconds(stackLiftUpWait)
-                    //.addTemporalMarker(() -> liftPos = aboveStackPos)
-                    .waitSeconds(stackLeaveWait)
-                    .setReversed(true)
-                    .splineTo(pose3.pose2d().vec(), pose3.pose2d().getHeading())
-                    .setReversed(false)
-                    .turn(pose3Turn)
-                    .splineTo(midPose.pose2d().vec(), midPose.pose2d().getHeading())
-                    /*.UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> {
-                        liftPos = midPos;
-                        intake2Pos = intake2Up;
-                    })*/
-                    .waitSeconds(midIntake2DownWait)
-                    //.addTemporalMarker(() -> intake2Pos = intake2Down)
-                    .waitSeconds(midIntakeOpenWait)
-                    //.addTemporalMarker(() -> intakePos = intakeOpen)
-                    .waitSeconds(midLeaveWait)
-                    //.addTemporalMarker(() -> liftPos = stackPos - toTicks(coneStackDifMM))
-                    .setReversed(true)
-                    .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
-                    .setReversed(false)
-                    .turn(pose2Turn)
-                    .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
-                    .waitSeconds(stackIntakeCloseWait)
-                    //.addTemporalMarker(() -> intakePos = intakeClose)
-                    .waitSeconds(stackLiftUpWait)
-                    //.addTemporalMarker(() -> liftPos = aboveStackPos - toTicks(coneStackDifMM))
-                    .waitSeconds(stackLeaveWait)
-                    .setReversed(true)
-                    .splineTo(pose3.pose2d().vec(), pose3.pose2d().getHeading())
-                    .setReversed(false)
-                    .turn(highPoseTurn)
-                    .splineTo(highPose.pose2d().vec(), highPose.pose2d().getHeading())
-                    /*.UNSTABLE_addTemporalMarkerOffset(highLiftUpOffset, () -> {
-                        liftPos = highPos;
-                        intake2Pos = intake2Up;
-                    })*/
-                    .waitSeconds(midIntake2DownWait)
-                    //.addTemporalMarker(() -> intake2Pos = intake2Down)
-                    .waitSeconds(midIntakeOpenWait)
-                    //.addTemporalMarker(() -> intakePos = intakeOpen)
-                    .waitSeconds(midLeaveWait)
-                    //.addTemporalMarker(() -> liftPos = 0)
-                    .setReversed(true)
-                    .splineTo(pose4.pose2d().vec(), pose4.pose2d().getHeading())
-                    .setReversed(false)
-                    .turn(pose4Turn)
-                    .strafeLeft(fieldSize / 6)
-                    .build()
+                    drive.trajectorySequenceBuilder(startPose.pose2d())
+                        //.addTemporalMarker(() -> intakePos = intakeClose)
+                        //.addTemporalMarker(liftUpStartWait, () -> liftPos = aboveStackPos)
+                        .splineTo(
+                                pose1.pose2d().vec(),
+                                pose1.pose2d().getHeading(),
+                                SampleMecanumDrive.getVelocityConstraint(startSpeed, MAX_ANG_VEL, TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(startSpeed)
+                        )
+                        .turn(pose1Turn)
+                        //.addTemporalMarker(() -> intake2Pos = intake2Up)
+                        .splineTo(midPose.pose2d().vec(), midPose.pose2d().getHeading())
+                        //.UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = midPos)
+                        .waitSeconds(midIntake2DownWait)
+                        //.addTemporalMarker(() -> intake2Pos = intake2Down)
+                        .waitSeconds(midIntakeOpenWait)
+                        //.addTemporalMarker(() -> intakePos = intakeOpen)
+                        .waitSeconds(midLeaveWait)
+                        .setReversed(true)
+                        .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
+                        .setReversed(false)
+                        .turn(pose2Turn)
+                        .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
+                        //.UNSTABLE_addDisplacementMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos)
+                        .waitSeconds(stackIntakeCloseWait)
+                        //.addTemporalMarker(() -> intakePos = intakeClose)
+                        .waitSeconds(stackLiftUpWait)
+                        //.addTemporalMarker(() -> liftPos = aboveStackPos)
+                        .waitSeconds(stackLeaveWait)
+                        .setReversed(true)
+                        .splineTo(pose3.pose2d().vec(), pose3.pose2d().getHeading())
+                        .setReversed(false)
+                        .turn(pose3Turn)
+                        .splineTo(midPose.pose2d().vec(), midPose.pose2d().getHeading())
+                        .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> {
+                            //liftPos = midPos;
+                            //intake2Pos = intake2Up;
+                        })
+                        .waitSeconds(midIntake2DownWait)
+                        //.addTemporalMarker(() -> intake2Pos = intake2Down)
+                        .waitSeconds(midIntakeOpenWait)
+                        //.addTemporalMarker(() -> intakePos = intakeOpen)
+                        .waitSeconds(midLeaveWait)
+                        .setReversed(true)
+                        .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
+                        .setReversed(false)
+                        .turn(pose2Turn)
+                        .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
+                        //.UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos - toTicks(coneStackDifMM))
+                        .waitSeconds(stackIntakeCloseWait)
+                        //.addTemporalMarker(() -> intakePos = intakeClose)
+                        .waitSeconds(stackLiftUpWait)
+                        //.addTemporalMarker(() -> liftPos = aboveStackPos - toTicks(coneStackDifMM))
+                        .waitSeconds(stackLeaveWait)
+                        .setReversed(true)
+                        .splineTo(pose3.pose2d().vec(), pose3.pose2d().getHeading())
+                        .setReversed(false)
+                        .turn(highPoseTurn)
+                        .splineTo(highPose.pose2d().vec(), highPose.pose2d().getHeading())
+                        .UNSTABLE_addTemporalMarkerOffset(highLiftUpOffset, () -> {
+                            //liftPos = highPos;
+                            //intake2Pos = intake2Up;
+                        })
+                        .waitSeconds(midIntake2DownWait)
+                        //.addTemporalMarker(() -> intake2Pos = intake2Down)
+                        .waitSeconds(midIntakeOpenWait)
+                        //.addTemporalMarker(() -> intakePos = intakeOpen)
+                        .waitSeconds(midLeaveWait)
+                        //.UNSTABLE_addTemporalMarkerOffset(pose4LiftOffsetWait, () -> liftPos = 0)
+                        .lineToConstantHeading(pose4.pose2d().vec())
+                        .turn(pose4Turn)
+                        .strafeLeft(fieldSize / 6)
+                        .build()
             );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
