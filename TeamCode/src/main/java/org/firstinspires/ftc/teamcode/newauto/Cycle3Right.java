@@ -1,14 +1,49 @@
 package org.firstinspires.ftc.teamcode.newauto;
 
-import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.*;
-import static org.firstinspires.ftc.teamcode.newauto.Consts.*;
 import static com.example.constants.Constants.MAX_ANG_VEL;
 import static com.example.constants.Constants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.highLiftUpOffset;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.highPose;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.highPoseTurn;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.liftUpStartWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midIntake2DownWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midIntakeOpenWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midLeaveWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midLiftUpOffset;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.midPose;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose1;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose1Turn;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose1TurnIntake2UpOffset;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose2;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose2Turn;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose3;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose3Turn;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose4;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose4LiftOffsetWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose4Turn;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.pose5;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackIntakeCloseWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackLeaveWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackLiftUpWait;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.stackPose;
+import static org.firstinspires.ftc.teamcode.newauto.AutoPoses.startPose;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.aboveStackPos;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.coneStackDifMM;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.fieldSize;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.highPos;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.intake2Down;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.intake2Up;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.intakeClose;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.intakeOpen;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.midPos;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.stackPos;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.startSpeed;
+import static org.firstinspires.ftc.teamcode.newauto.Consts.toTicks;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -17,16 +52,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
 @Config
-@Autonomous(preselectTeleOp = "New Drive", name = "3 Cone Right")
-public class Cycle3Right extends LinearOpMode {
+//@Autonomous(preselectTeleOp = "New Drive", name = "3 Cone Right")
+public abstract class Cycle3Right extends LinearOpMode {
     SampleMecanumDrive drive;
     Servo intake;
     Servo intake2;
     DcMotorEx lift;
-    Detect detect;
+    public Detect detect;
 
     public int lastLiftPos = 0;
     public int liftPos = 0;
@@ -44,6 +78,10 @@ public class Cycle3Right extends LinearOpMode {
         PARK
     }
 
+    public abstract void initCamera();
+
+    public abstract int getAutoCase();
+
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -54,11 +92,12 @@ public class Cycle3Right extends LinearOpMode {
         lift = hardwareMap.get(DcMotorEx.class, "lift");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(1);
-        detect = new Detect(hardwareMap);
+        //detect = new Detect(hardwareMap);
+        initCamera();
 
         TrajectorySequence base = drive.trajectorySequenceBuilder(startPose.pose2d())
                 .addTemporalMarker(() -> intakePos = intakeClose)
@@ -78,12 +117,12 @@ public class Cycle3Right extends LinearOpMode {
                 .waitSeconds(midIntakeOpenWait)
                 .addTemporalMarker(() -> intakePos = intakeOpen)
                 .waitSeconds(midLeaveWait)
+                .addTemporalMarker(() -> liftPos = stackPos)
                 .setReversed(true)
                 .splineTo(pose2.pose2d().vec(), pose2.pose2d().getHeading())
                 .setReversed(false)
                 .turn(pose2Turn)
                 .splineTo(stackPose.pose2d().vec(), stackPose.pose2d().getHeading())
-                .UNSTABLE_addDisplacementMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos)
                 .waitSeconds(stackIntakeCloseWait)
                 .addTemporalMarker(() -> intakePos = intakeClose)
                 .waitSeconds(stackLiftUpWait)
@@ -150,7 +189,7 @@ public class Cycle3Right extends LinearOpMode {
         int result = 13;
 
         while (opModeInInit()) {
-            result = detect.getResult();
+            result = getAutoCase();
             telemetry.addData("Detection", result);
             telemetry.update();
             sleep(20);
@@ -193,5 +232,6 @@ public class Cycle3Right extends LinearOpMode {
         lift.setPower(0);
 
         drive.breakFollowing();
+        drive.setWeightedDrivePower(new Pose2d(0, 0, 0));
     }
 }

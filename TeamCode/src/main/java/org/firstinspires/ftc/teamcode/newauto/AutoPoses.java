@@ -28,7 +28,7 @@ public class AutoPoses {
             fieldSize / 6,
             -fieldSize / 6,
             Math.toRadians(270 - 45)
-    ).offset(0, -driveTrainLenght / 2 - 3);
+    ).offset(0, -driveTrainLenght / 2 - 4);
 
     public static double midLiftUpOffset = -2;
     public static double midIntake2DownWait = 0.5;
@@ -39,7 +39,7 @@ public class AutoPoses {
             fieldSize / 6,
             0,
             Math.toRadians(90 + 45)
-    ).offset(0, -driveTrainLenght / 2 - 3.3);
+    ).offset(0, -driveTrainLenght / 2 - 4.5);
 
     public static double highPoseTurn = Math.toRadians(90 + 45);
     public static double highLiftUpOffset = -2;
@@ -53,7 +53,7 @@ public class AutoPoses {
     public static double pose2Turn = Math.toRadians(90 + 45);
 
     public static ConfigPose stackPose = new ConfigPose(
-            fieldSize / 2.4 - 0.7,
+            fieldSize / 2.4 - 2.4,
             -fieldSize / 12,
             Math.toRadians(0)
     );

@@ -25,15 +25,13 @@ public class SimpleAuto extends LinearOpMode {
         intake.setPosition(SimpleDrive.intakeStart);
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(initPos)
                 .forward(2)
-                .strafeRight(23)
+                .strafeRight(22)
                 .forward(23)
                 .build();
 
         TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(initPos)
                 .forward(2)
-                .strafeRight(23)
-                .forward(45)
-                .strafeLeft(23)
+                .forward(23)
                 .build();
 
         TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(initPos)
@@ -43,14 +41,20 @@ public class SimpleAuto extends LinearOpMode {
                 .build();
 
         int result = 13;
-        int tempResult = -1;
+        //int tempResult = -1;
         while (opModeInInit()) {
-            tempResult = drive.getResult();
+            /*tempResult = drive.getResult();
             if (tempResult != -1)
-                result = tempResult;
+                result = tempResult;*/
+            if (gamepad1.x)
+                result = 13;
+            else if (gamepad1.a)
+                result = 14;
+            else if (gamepad1.b)
+                result = 15;
             telemetry.addData("Detection", result);
             telemetry.update();
-            sleep(20);
+            //sleep(20);
         }
 
         switch (result) {

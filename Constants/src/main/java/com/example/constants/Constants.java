@@ -5,8 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 
 public class Constants {
     public static double fieldSize = 141.1;
-    public static double MAX_VEL = 40;
-    public static double MAX_ACCEL = 40;
+    public static double MAX_VEL = 50;
+    public static double MAX_ACCEL = 50;
     public static double MAX_ANG_VEL = Math.toRadians(240.5639808);
     public static double MAX_ANG_ACCEL = Math.toRadians(240.5639808);
     public static double TRACK_WIDTH = 12.525;

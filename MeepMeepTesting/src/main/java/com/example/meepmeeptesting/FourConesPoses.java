@@ -1,10 +1,9 @@
 package com.example.meepmeeptesting;
 
-
 import static com.example.meepmeeptesting.Consts.driveTrainLenght;
 import static com.example.meepmeeptesting.Consts.fieldSize;
 
-public class AutoPoses {
+public class FourConesPoses {
     public static ConfigPose startPose = new ConfigPose(
             fieldSize / 4,
             -fieldSize / 2 + driveTrainLenght / 2,
@@ -16,18 +15,16 @@ public class AutoPoses {
     public static ConfigPose pose1 = new ConfigPose(
             fieldSize / 4,
             -fieldSize / 12,
-            Math.toRadians(90)
+            Math.toRadians(0)
     );
 
     public static double pose1Turn = Math.toRadians(180 - 45);
 
-    public static double pose1TurnIntake2UpOffset = -0.5;
-
     public static ConfigPose midPose = new ConfigPose(
             fieldSize / 6,
             -fieldSize / 6,
-            Math.toRadians(270 - 45)
-    ).offset(0, -driveTrainLenght / 2 - 3.4);
+            Math.toRadians(-45)
+    ).offset(0, -driveTrainLenght / 2 - 3);
 
     public static double midLiftUpOffset = -2;
     public static double midIntake2DownWait = 0.5;
@@ -44,15 +41,15 @@ public class AutoPoses {
     public static double highLiftUpOffset = -2;
 
     public static ConfigPose pose2 = new ConfigPose(
-            fieldSize / 4,
+            fieldSize / 12,
             -fieldSize / 12,
-            Math.toRadians(45)
+            Math.toRadians(0)
     );
 
     public static double pose2Turn = Math.toRadians(90 + 45);
 
     public static ConfigPose stackPose = new ConfigPose(
-            fieldSize / 2.4 - 1,
+            fieldSize / 2.4 - 0.7,
             -fieldSize / 12,
             Math.toRadians(0)
     );

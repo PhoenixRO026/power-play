@@ -8,6 +8,8 @@ import static com.example.constants.Constants.TRACK_WIDTH;
 import static com.example.meepmeeptesting.AutoPoses.*;
 import static com.example.meepmeeptesting.Consts.*;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
@@ -16,7 +18,144 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
-        meep3();
+        meep4();
+    }
+
+    public static void fourCones() {
+        MeepMeep meepMeep = new MeepMeep(650);
+
+        RoadRunnerBotEntity bot = new DefaultBotBuilder(meepMeep)
+            .setDimensions(driveTrainLenght, driveTrainLenght)
+            .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
+            .setColorScheme(new ColorSchemeRedDark())
+            .followTrajectorySequence(drive ->
+                drive.trajectorySequenceBuilder(startPose.pose2d())
+                        .lineTo(pose1.pose2d().vec())
+                        .turn(Math.toRadians(-90))
+                        .lineTo(pose2.pose2d().vec())
+                        .lineToLinearHeading(midPose.pose2d())
+                        .waitSeconds(0.5)   //cone 1
+                        .lineToLinearHeading(pose2.pose2d())
+                        .lineTo(stackPose.pose2d().vec())
+                        .waitSeconds(0.5)
+                        .lineTo(pose2.pose2d().vec())
+                        .lineToLinearHeading(midPose.pose2d())
+                        .waitSeconds(0.5)   //cone 2
+                        .lineToLinearHeading(pose2.pose2d())
+                        .lineTo(stackPose.pose2d().vec())
+                        .waitSeconds(0.5)
+                        .lineTo(pose2.pose2d().vec())
+                        .lineToLinearHeading(midPose.pose2d())
+                        .waitSeconds(0.5)   //cone 3
+                        .lineToLinearHeading(pose2.pose2d())
+                        .lineTo(stackPose.pose2d().vec())
+                        .waitSeconds(0.5)
+                        .lineTo(pose2.pose2d().vec())
+                        .lineToLinearHeading(midPose.pose2d())
+                        .waitSeconds(0.5)   //cone 4
+                        .lineToLinearHeading(pose2.pose2d())
+                        .lineTo(stackPose.pose2d().vec())
+                        .build()
+            );
+
+        meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
+            .setDarkMode(true)
+                .setBackgroundAlpha(0.95f)
+                .addEntity(bot)
+                .start();
+    }
+
+    public static void meep4() {
+        MeepMeep meepMeep = new MeepMeep(650);
+
+        RoadRunnerBotEntity bot = new DefaultBotBuilder(meepMeep)
+                .setDimensions(driveTrainLenght, driveTrainLenght)
+                .setConstraints(MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL, TRACK_WIDTH)
+                .setColorScheme(new ColorSchemeRedDark())
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(startPose.reversed().pose2d())
+                                //.addTemporalMarker(() -> intakePos = intakeClose)
+                                //.addTemporalMarker(liftUpStartWait, () -> liftPos = aboveStackPos)
+                                .splineTo(
+                                        pose1.reversed().pose2d().vec(),
+                                        pose1.reversed().pose2d().getHeading(),
+                                        SampleMecanumDrive.getVelocityConstraint(startSpeed, MAX_ANG_VEL, TRACK_WIDTH),
+                                        SampleMecanumDrive.getAccelerationConstraint(startSpeed)
+                                )
+                                .turn(-pose1Turn)
+                                //.UNSTABLE_addTemporalMarkerOffset(pose1TurnIntake2UpOffset, () -> intake2Pos = intake2Up)
+                                .splineTo(midPose.reversed().pose2d().vec(), midPose.reversed().pose2d().getHeading())
+                                //.UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = midPos)
+                                .waitSeconds(midIntake2DownWait)
+                                //.addTemporalMarker(() -> intake2Pos = intake2Down)
+                                .waitSeconds(midIntakeOpenWait)
+                                //.addTemporalMarker(() -> intakePos = intakeOpen)
+                                .waitSeconds(midLeaveWait)
+                                //.addTemporalMarker(() -> liftPos = aboveStackPos)
+                                //.setReversed(true)
+                                .lineToConstantHeading(pose2.reversed().pose2d().vec())
+                                //.setReversed(false)
+                                .turn(-pose2Turn)
+                                .lineToConstantHeading(stackPose.reversed().pose2d().vec())
+                                //.splineTo(stackPose.reversed().pose2d().vec(), stackPose.reversed().pose2d().getHeading())
+                                //.splineTo(new Vector2d(-fieldSize/2.4 + 1, -fieldSize/12), Math.toRadians(180))
+                                //.UNSTABLE_addDisplacementMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos)
+                                .waitSeconds(stackIntakeCloseWait)
+                                //.addTemporalMarker(() -> intakePos = intakeClose)
+                                .waitSeconds(stackLiftUpWait)
+                                //.addTemporalMarker(() -> liftPos = aboveStackPos)
+                                .waitSeconds(stackLeaveWait)
+                                //.setReversed(true)
+                                //.splineTo(pose3.reversed().pose2d().vec(), pose3.reversed().pose2d().getHeading())
+                                //.setReversed(false)
+                                .lineToConstantHeading(pose3.reversed().pose2d().vec())
+                                .turn(-pose3Turn)
+                                .splineTo(midPose.reversed().pose2d().vec(), midPose.reversed().pose2d().getHeading())
+                                .UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> {
+                                //    liftPos = midPos;
+                                //    intake2Pos = intake2Up;
+                                })
+                                .waitSeconds(midIntake2DownWait)
+                                //.addTemporalMarker(() -> intake2Pos = intake2Down)
+                                .waitSeconds(midIntakeOpenWait)
+                                //.addTemporalMarker(() -> intakePos = intakeOpen)
+                                .waitSeconds(midLeaveWait)
+                                .setReversed(true)
+                                .splineTo(pose2.reversed().pose2d().vec(), pose2.reversed().pose2d().getHeading())
+                                .setReversed(false)
+                                .turn(-pose2Turn)
+                                .splineTo(stackPose.reversed().pose2d().vec(), stackPose.reversed().pose2d().getHeading())
+                                //.UNSTABLE_addTemporalMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos - toTicks(coneStackDifMM))
+                                .waitSeconds(stackIntakeCloseWait)
+                                //.addTemporalMarker(() -> intakePos = intakeClose)
+                                .waitSeconds(stackLiftUpWait)
+                                //.addTemporalMarker(() -> liftPos = aboveStackPos - toTicks(coneStackDifMM))
+                                .waitSeconds(stackLeaveWait)
+                                .setReversed(true)
+                                .splineTo(pose3.reversed().pose2d().vec(), pose3.reversed().pose2d().getHeading())
+                                .setReversed(false)
+                                .turn(-highPoseTurn)
+                                .splineTo(highPose.reversed().pose2d().vec(), highPose.reversed().pose2d().getHeading())
+                                .UNSTABLE_addTemporalMarkerOffset(highLiftUpOffset, () -> {
+                                //    liftPos = highPos;
+                                //    intake2Pos = intake2Up;
+                                })
+                                .waitSeconds(midIntake2DownWait)
+                                //.addTemporalMarker(() -> intake2Pos = intake2Down)
+                                .waitSeconds(midIntakeOpenWait)
+                                //.addTemporalMarker(() -> intakePos = intakeOpen)
+                                .waitSeconds(midLeaveWait)
+                                //.UNSTABLE_addTemporalMarkerOffset(pose4LiftOffsetWait, () -> liftPos = 0)
+                                .lineToConstantHeading(pose4.reversed().pose2d().vec())
+                                .turn(-pose4Turn)
+                                .build()
+                );
+        meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
+                .setDarkMode(true)
+                // Background opacity from 0-1
+                .setBackgroundAlpha(0.95f)
+                .addEntity(bot)
+                .start();
     }
 
     public static void meep3() {

@@ -60,7 +60,7 @@ class Lift(
     init {
         motor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         motor.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        motor.direction = DcMotorSimple.Direction.REVERSE
+        motor.direction = DcMotorSimple.Direction.FORWARD
         motor.targetPosition = 0
         motor.mode = DcMotor.RunMode.RUN_TO_POSITION
         motor.power = holdPower
