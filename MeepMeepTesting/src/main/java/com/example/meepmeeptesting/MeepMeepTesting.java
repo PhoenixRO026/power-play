@@ -96,7 +96,7 @@ public class MeepMeepTesting {
                                 .lineToConstantHeading(pose2.reversed().pose2d().vec())
                                 //.setReversed(false)
                                 .turn(-pose2Turn)
-                                .lineToConstantHeading(stackPose.reversed().pose2d().vec())
+                                .splineTo(stackPose.reversed().pose2d().vec(), stackPose.reversed().heading)
                                 //.splineTo(stackPose.reversed().pose2d().vec(), stackPose.reversed().pose2d().getHeading())
                                 //.splineTo(new Vector2d(-fieldSize/2.4 + 1, -fieldSize/12), Math.toRadians(180))
                                 //.UNSTABLE_addDisplacementMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos)
@@ -135,7 +135,7 @@ public class MeepMeepTesting {
                                 .splineTo(pose3.reversed().pose2d().vec(), pose3.reversed().pose2d().getHeading())
                                 .setReversed(false)
                                 .turn(-highPoseTurn)
-                                .splineTo(highPose.reversed().pose2d().vec(), highPose.reversed().pose2d().getHeading())
+                                .lineToConstantHeading(highPose.reversed().pose2d().vec())
                                 .UNSTABLE_addTemporalMarkerOffset(highLiftUpOffset, () -> {
                                 //    liftPos = highPos;
                                 //    intake2Pos = intake2Up;

@@ -157,7 +157,7 @@ public abstract class Cycle3Right extends LinearOpMode {
                 .splineTo(pose3.pose2d().vec(), pose3.pose2d().getHeading())
                 .setReversed(false)
                 .turn(highPoseTurn)
-                .splineTo(highPose.pose2d().vec(), highPose.pose2d().getHeading())
+                .lineToConstantHeading(highPose.pose2d().vec())
                 .UNSTABLE_addTemporalMarkerOffset(highLiftUpOffset, () -> {
                     liftPos = highPos;
                     intake2Pos = intake2Up;
