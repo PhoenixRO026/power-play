@@ -96,7 +96,7 @@ public class MeepMeepTesting {
                                 .lineToConstantHeading(pose2.reversed().pose2d().vec())
                                 //.setReversed(false)
                                 .turn(-pose2Turn)
-                                .splineTo(stackPose.reversed().pose2d().vec(), stackPose.reversed().heading)
+                                .splineTo(stackPose.pose2d().vec(), stackPose.heading)
                                 //.splineTo(stackPose.reversed().pose2d().vec(), stackPose.reversed().pose2d().getHeading())
                                 //.splineTo(new Vector2d(-fieldSize/2.4 + 1, -fieldSize/12), Math.toRadians(180))
                                 //.UNSTABLE_addDisplacementMarkerOffset(midLiftUpOffset, () -> liftPos = stackPos)

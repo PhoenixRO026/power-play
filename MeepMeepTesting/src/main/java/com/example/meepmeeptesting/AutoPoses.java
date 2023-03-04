@@ -53,9 +53,9 @@ public class AutoPoses {
 
     public static ConfigPose stackPose = new ConfigPose(
             fieldSize / 2.4 - 1,
-            -fieldSize / 12 + 2,
+            -fieldSize / 12,
             Math.toRadians(0)
-    );
+    ).offset(2, 0);
 
     public static double stackIntakeCloseWait = 0.2;
     public static double stackLiftUpWait = 0.4;

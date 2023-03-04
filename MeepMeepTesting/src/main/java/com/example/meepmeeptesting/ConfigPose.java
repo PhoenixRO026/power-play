@@ -22,23 +22,29 @@ public class ConfigPose {
     }
 
     public ConfigPose offset(double x, double y) {
-        this.xOffset = Math.sin(heading) * x + Math.cos(heading) * y;
-        this.yOffset = -Math.cos(heading) * x + Math.sin(heading) * y;
+        /*this.xOffset = Math.sin(heading) * x + Math.cos(heading) * y;
+        this.yOffset = -Math.cos(heading) * x + Math.sin(heading) * y;*/
+        this.xOffset = x;
+        this.yOffset = y;
         return this;
     }
 
-    private ConfigPose setOffset(double xOffset, double yOffset) {
+    /*private ConfigPose setOffset(double xOffset, double yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         return this;
-    }
+    }*/
 
     public Pose2d pose2d() {
-        return new Pose2d(x + xOffset, y + yOffset, heading);
+        return new Pose2d(
+                x + Math.sin(heading) * xOffset + Math.cos(heading) * yOffset,
+                y + -Math.cos(heading) * xOffset + Math.sin(heading) * yOffset,
+                heading
+        );
     }
 
     public ConfigPose reversed() {
-        return new ConfigPose(-x, y, flipHeadingRad(heading)).setOffset(-xOffset, yOffset);
+        return new ConfigPose(-x, y, flipHeadingRad(heading)).offset(xOffset, yOffset);
     }
 
     public static double flipHeadingRad(double heading) {
