@@ -41,11 +41,11 @@ public class SimpleAuto extends LinearOpMode {
                 .build();
 
         int result = 13;
-        //int tempResult = -1;
+        int tempResult;
         while (opModeInInit()) {
-            /*tempResult = drive.getResult();
+            tempResult = drive.getResult();
             if (tempResult != -1)
-                result = tempResult;*/
+                result = tempResult;
             if (gamepad1.x)
                 result = 13;
             else if (gamepad1.a)
