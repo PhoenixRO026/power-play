@@ -43,4 +43,9 @@ class Intake2(
         offset -= 0.001
         servo.position = servoStart + servoMod * position.toDouble() + offset
     }
+
+    fun resetOffset() {
+        offset = 0.0
+        servo.position = servoStart + servoMod * position.toDouble() + offset
+    }
 }

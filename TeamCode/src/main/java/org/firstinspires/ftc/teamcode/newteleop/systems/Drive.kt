@@ -10,11 +10,12 @@ class Drive(hardwareMap: HardwareMap) {
     private val heading
         get() = drive.poseEstimate.heading
     private var speed = 1.0
+    var sniperSpeed = 0.35
     var sniperMode = false
         set(value) {
             if (value == field)
                 return
-            speed = if (value) 0.35 else 1.0
+            speed = if (value) sniperSpeed else 1.0
             field = value
         }
 

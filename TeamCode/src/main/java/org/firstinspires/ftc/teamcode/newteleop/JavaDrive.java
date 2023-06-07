@@ -23,6 +23,7 @@ public class JavaDrive extends LinearOpMode {
         resetHeadingButton = new ButtonReader(() -> gamepad1.b);
         dpadUsed = new ButtonReader(() -> gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right);
         intake2Up = new ToggleButtonReader(() -> gamepad1.y);
+        robot.drive.setSniperSpeed(getSniperSpeed());
 
         waitForStart();
 
@@ -37,7 +38,7 @@ public class JavaDrive extends LinearOpMode {
 
             robot.intake.setPosition(Math.max(gamepad1.right_trigger, gamepad2.right_trigger));
 
-            robot.drive.setSniperMode(gamepad1.left_trigger >= 0.2);
+            robot.drive.setSniperMode(getSniperMode(gamepad1.left_trigger));
 
             if (resetHeadingButton.wasJustPressed()) {
                 robot.drive.resetFieldCentric();
@@ -65,16 +66,26 @@ public class JavaDrive extends LinearOpMode {
 
             if (gamepad1.right_bumper || gamepad2.y) robot.lift.setPower(1);
             else if (gamepad1.left_bumper || gamepad2.a) robot.lift.setPower(-1);
-            else robot.lift.setPower(0);
+            else robot.lift.setPower(-gamepad2.left_stick_y);
 
             if (intake2Up.getState()) robot.intake2.setPosition(1);
             else robot.intake2.setPosition(gamepad2.left_trigger);
+
+            if (gamepad2.right_bumper) robot.intake2.resetOffset();
 
             if (gamepad2.dpad_up) robot.intake2.increaseOffset();
             else if (gamepad2.dpad_down) robot.intake2.decreaseOffset();
 
             telemetry.update();
         }
+    }
+
+    public boolean getSniperMode(float trigger) {
+        return trigger >= 0.2;
+    }
+
+    public double getSniperSpeed() {
+        return 0.35;
     }
 
     private int btoi(boolean bool) {
